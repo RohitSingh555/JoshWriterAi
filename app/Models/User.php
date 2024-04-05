@@ -26,7 +26,9 @@ class User extends Authenticatable
         'google_id',
         'access_token',
         'lastDate',
-        'lastTokens'
+        'lastTokens',
+        'password_status',
+        'is_user_student'
 
     ];
 

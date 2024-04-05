@@ -42,13 +42,13 @@ class ChatGptController extends Controller
                     $prompt = $this->getEmailPrompt($request);
                 }
                 $tokenData = ChatGpt::where('id', 1)->first();
-                $api_key = $tokenData->token;
-                $url = "https://api.openai.com/v1/completions";
+                $api_key = env('OPENAI_API_KEY');
+                $url = env('OPENAI_API_URL');
 
                 $data = [
-                    "model" => "gpt-3.5-turbo-instruct",
+                    "model" => env('OPENAI_MODEL_NAME'),
                     "prompt" => $prompt,
-                    "max_tokens" => intval($promptToken->prompt_tokens),
+                    "max_tokens" => intval(env('OPENAI_MAX_TOKENS')),
                     "temperature" => 0
                 ];
                 $data_json = json_encode($data);
@@ -219,4 +219,7 @@ class ChatGptController extends Controller
             return redirect()->back()->with('error', 'You are not authorize to make this changes. Thank you');
         }
     }
+
+    
+
 }

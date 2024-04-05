@@ -91,6 +91,28 @@
 
     }
 
+    .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 2px solid #22D4C4;
+            padding: 40px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            display: none;
+            font-weight: bold;
+            color: #151B3B;
+            font-size: 20px;
+        }
+
+        .popup.show {
+            display: block;
+        }
+
 </style>
 
 
@@ -143,17 +165,46 @@
 
                     </li>
 
-                    <li class="nav-item">
+                    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; padding: 5px 50px 0px 0px;">
+        <img src="{{ asset('frontend/images/user.png') }}" alt="">
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Change Password</a></li>
+    </ul>
+</li>
 
-                        <a class="nav-link active" aria-current="page"
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: #22d4c4;">
+            <div class="modal-header">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Change Password</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="changePasswordForm">
+                    <div class="mb-3">
+                        <label for="oldPassword" class="form-label text-white">Current Password</label>
+                        <input type="password" class="form-control" id="oldPassword" style="background-color: #fff;">
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label text-white">New Password</label>
+                        <input type="password" class="form-control" id="newPassword" style="background-color: #fff;">
+                    </div>
+                    <div class="mb-3">
+                        <label for="repeatNewPassword" class="form-label text-white">Repeat New Password</label>
+                        <input type="password" class="form-control" id="repeatNewPassword" style="background-color: #fff;">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="closeModalBtn">Close</button>
+<button type="button" class="btn btn-dark" id="saveChangesBtn">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                            style="color: white;     padding: 5px 50px 0px 0px;">
-
-                            <img src="{{ asset('frontend/images/user.png') }}" alt="">
-
-                        </a>
-
-                    </li>
 
                     <li class="nav-item">
 
@@ -748,6 +799,60 @@
         });
 
     </script>
+
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('changePasswordForm');
+    const saveChangesBtn = document.getElementById('saveChangesBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    saveChangesBtn.addEventListener('click', function() {
+        const oldPassword = document.getElementById('oldPassword').value;
+        const newPassword = document.getElementById('newPassword').value;
+        const repeatNewPassword = document.getElementById('repeatNewPassword').value;
+        var userEmail = "{{ Auth::user()->email }}";
+
+        const formData = new FormData();
+        formData.append('email', userEmail);
+        formData.append('oldPassword', oldPassword);
+        formData.append('newPassword', newPassword);
+        formData.append('repeatNewPassword', repeatNewPassword);
+
+        fetch('/change-password', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const popup = document.createElement('div');
+            popup.classList.add('popup');
+            popup.textContent = data.success ? 'Password changed successfully. Please log in again.' : 'Failed to change password. Please try again.';
+            document.body.appendChild(popup);
+
+            popup.classList.add('show');
+
+            setTimeout(function() {
+                popup.classList.remove('show');
+                window.location.href = '/logout';
+            }, 2000);
+        })
+
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+    closeModalBtn.addEventListener('click', function() {
+        $('#changePasswordModal').modal('hide');
+    });
+});
+
+
+</script>
+
 
 </body>
 

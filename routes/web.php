@@ -56,8 +56,9 @@ Route::middleware('VerifyAccount')->group(function () {
 Route::get('auth/social', [GoogleController::class, 'show'])->name('social.login');
 Route::get('oauth/{google}', [GoogleController::class, 'redirectToProvider'])->name('social.oauth');
 Route::get('/auth/{google}/callback/', [GoogleController::class, 'handleProviderCallback'])->name('social.callback');
-
-
+Route::post('/change-password', [UserController::class, 'changePassword'])->name('change.password');
+Route::post('/create-automated-user', [UserController::class, 'AutomatedUserCreator'])->name('create.user');
+Route::put('/create-automated-user', [UserController::class, 'AutomatedUserCreator'])->name('create.user');
 
 Route::prefix('admin')->group(function () {
     Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
@@ -72,9 +73,11 @@ Route::prefix('admin')->group(function () {
             Route::prefix('users')->group(function () {
                 Route::get('/get', [UserController::class, 'get'])->name('users.get');
                 Route::post('/store', [UserController::class, 'store'])->name('users.store');
+                Route::post('/toggle-student', [UserController::class, 'toggleStudent'])->name('toggle.student');
 
                 Route::get('/histories/{id}', [UserController::class, 'histories'])->name('users.histories');
                 Route::get('/history-by-id/{id}', [UserController::class, 'historyById'])->name('users.historyById');
+                Route::get('/history', [UserController::class, 'All_histories'])->name('allowed_users.history');
 
                 Route::get('/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
 
@@ -82,8 +85,10 @@ Route::prefix('admin')->group(function () {
 
                 Route::post('/post-edit', [UserController::class, 'postEdit'])->name('users.postEdit');
                 Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('users.delete');
+                Route::post('/upload-csv', [CSVController::class, 'readCsvFile'])->name('upload.csv');
             });
-
+            
+            
             Route::prefix('allowed-users')->group(function () {
                 Route::get('/get', [AllowedUsersController::class, 'get'])->name('allowed_users.get');
                 Route::post('/store', [AllowedUsersController::class, 'store'])->name('allowed_users.store');

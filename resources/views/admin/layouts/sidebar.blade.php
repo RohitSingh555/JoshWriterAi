@@ -50,6 +50,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="{{ route('allowed_users.history') }}" class="nav-link">
+                            <i class="nav-icon fas fa-history"></i>
+                            <p>
+                                History
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{ route('token.get') }}" class="nav-link">
                             <i class="nav-icon fas fa-key"></i>
                             <p>
