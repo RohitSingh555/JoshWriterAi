@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\AllowedUsers;
@@ -28,17 +29,18 @@ class AuthController extends Controller
             if (Auth::check() == true) {
                 $totalToken = ChatGpt::where('id', 1)->first();
                 $user_tokens = User::find(Auth::user()->id);
+                $user_last_tokens =  $user_tokens->lastTokens;
                 if ($user_tokens->lastDate != Carbon::now()->format('Y-m-d')) {
                     $user_tokens->lastTokens = $totalToken->default_tokens;
                     $user_tokens->lastDate = Carbon::now()->format('Y-m-d');
                     $user_tokens->save();
                 }
                 $name = "social-media-ad-copy-creation";
-                return view('frontend.index', compact('name'));
+                return view('frontend.index', compact('name', 'user_last_tokens'));
             } else {
                 return redirect()->route('login');
             }
-        }  else {
+        } else {
             return redirect()->route('admin.dashboard');
         }
     }
@@ -53,7 +55,7 @@ class AuthController extends Controller
                 return redirect()->route('login');
             }
         }
-         //else {
+        //else {
 
         //     return redirect()->back()->with('error', 'Role is invalid!');
 
@@ -125,254 +127,254 @@ class AuthController extends Controller
         } else {
             return redirect()->route('login');
         }
-        }
+    }
 
-        public function RegisterUser(Request $request)
-        {
-            try {
-                // Validate user input
-                $validatedData = $request->validate([
-                    'name' => 'required|max:15',
-                    'email' => 'required|email|unique:users|max:255',
-                    'password' => 'required|string|confirmed|min:8',
-                ], [
-                    'name.required' => 'Name is required.',
-                    'name.max' => 'Name must be less than 15 characters.',
-                    'email.required' => 'Email is required.',
-                    'email.email' => 'Email must be a valid email address.',
-                    'email.max' => 'Email must be less than 255 characters.',
-                    'email.unique' => 'Email is already registered.',
-                    'password.required' => 'Password is required.',
-                    'password.string' => 'Password must be a string.',
-                    'password.confirmed' => 'Password confirmation does not match.',
-                    'password.min' => 'Password must be at least 8 characters long.',
-                ]);
-        
-                // Check if the email exists in allowed_users table
-                // $allowedUser = AllowedUsers::where('email', $request->email)->first();
-                // if (!$allowedUser) {
-                //     throw ValidationException::withMessages(['email' => 'Email not allowed. Contact admin for more details.']);
-                // }
-        
-                // Create user data
-                $totalToken = ChatGpt::findOrFail(1);
-                $data = [
-                    'name' => $validatedData['name'],
-                    'email' => $validatedData['email'],
-                    'password' => Hash::make($validatedData['password']),
-                    'code' => str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT),
-                    'role' => 'User',
-                    'lastTokens' => 0,
-                    'lastDate' => Carbon::now()->format('Y-m-d'),
-                ];
-        
-                $user = User::create($data);
-                if (!$user) {
-                    throw new Exception('Failed to create user.');
-                }
-        
-                Mail::send('emails.verifyemail', ['otp' => $data['code']], function ($message) use ($request) {
-                    $message->to($request->email);
-                    $message->subject('Verify Email');
-                });
-        
-                return redirect()->route('login')->with('success', 'Account created successfully!');
-            } catch (ValidationException $e) {
-                return redirect()->route('signup')->withErrors($e->errors());
-            } catch (Exception $e) {
-                return redirect()->route('signup')->with('error', $e->getMessage());
+    public function RegisterUser(Request $request)
+    {
+        try {
+            // Validate user input
+            $validatedData = $request->validate([
+                'name' => 'required|max:15',
+                'email' => 'required|email|unique:users|max:255',
+                'password' => 'required|string|confirmed|min:8',
+            ], [
+                'name.required' => 'Name is required.',
+                'name.max' => 'Name must be less than 15 characters.',
+                'email.required' => 'Email is required.',
+                'email.email' => 'Email must be a valid email address.',
+                'email.max' => 'Email must be less than 255 characters.',
+                'email.unique' => 'Email is already registered.',
+                'password.required' => 'Password is required.',
+                'password.string' => 'Password must be a string.',
+                'password.confirmed' => 'Password confirmation does not match.',
+                'password.min' => 'Password must be at least 8 characters long.',
+            ]);
+
+            // Check if the email exists in allowed_users table
+            // $allowedUser = AllowedUsers::where('email', $request->email)->first();
+            // if (!$allowedUser) {
+            //     throw ValidationException::withMessages(['email' => 'Email not allowed. Contact admin for more details.']);
+            // }
+
+            // Create user data
+            $totalToken = ChatGpt::findOrFail(1);
+            $data = [
+                'name' => $validatedData['name'],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+                'code' => str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT),
+                'role' => 'User',
+                'lastTokens' => 0,
+                'lastDate' => Carbon::now()->format('Y-m-d'),
+            ];
+
+            $user = User::create($data);
+            if (!$user) {
+                throw new Exception('Failed to create user.');
             }
-        }
-        // public function RegisterUser(Request $request)
-        // {
-        //     $validatedData = $request->validate([
-        //         'name' => 'required|max:15',
-        //         'email' => 'required|email|unique:users|max:255',
-        //         'password' => 'required|string|confirmed|min:8',
-        //     ], [
-        //         'name.required' => 'Name is required.',
-        //         'name.max' => 'Name must be less than 15 characters.',
-        //         'email.required' => 'Email is required.',
-        //         'email.email' => 'Email must be a valid email address.',
-        //         'email.max' => 'Email must be less than 255 characters.',
-        //         'password.required' => 'Password is required.',
-        //         'password.string' => 'Password must be a string.',
-        //         'password.confirmed' => 'Password confirmation does not match.',
-        //         'password.min' => 'Password must be at least 8 characters long.',
-        //     ]);
-        //     try {
-        //         $allowedUsers = AllowedUsers::get();
-        //         $emailFound = false;
-        //         foreach ($allowedUsers as $key => $value) {
-        //             if (strtolower($value->email) == strtolower($request->email)) {
-        //                 $emailFound = true;
-        //                 break;
-        //             }
-        //         }
-        //         if ($emailFound) {
-        //             $totalToken = ChatGpt::where('id', 1)->first();
-        //             $data = $validatedData;
-        //             $data['password'] = Hash::make($request->input('password'));
-        //             $data['code'] = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
-        //             $data['role'] = 'User';
-        //             $data['lastTokens'] = $totalToken->default_tokens;
-        //             $data['lastDate'] = Carbon::now()->format('Y-m-d');
-        //             $user = User::create($data);
-        //             if ($user) {
-        //                 Mail::send('emails.verifyemail', ['otp' => $user['code']], function ($message) use ($request) {
-        //                     $message->to($request->email);
-        //                     $message->subject('Verify Email');
-        //                 });
-        //                 return redirect()->route('login')->with('success', 'Account Created Successfully!');
-        //             } else {
-        //                 return redirect()->route('signup')->with('error', 'Something went wrong. Please try again later!');
-        //             }
-        //         } else {
-    
-        //             return redirect()->back()->with('error', 'Email not found in Google sheet. Contact admin for more details. Thank you!');
-        //         }
-        //     } catch (Exception $e) {
-    
-        //         return redirect()->route('signup')->with('error', $e->getMessage());
-        //     }
-        // }
-    
 
-        public function postEditAutomation($userId)
-        {
-            try {
-                DB::beginTransaction();
-                
-                $user = User::find($userId);
-                
-                // Check if the user exists and is a student
-                if ($user && $user->is_user_student=="true") {
-                    if ($user->last_login < Carbon::today() || is_null($user->last_login)) {
-                        $user->lastTokens = 5000;
+            Mail::send('emails.verifyemail', ['otp' => $data['code']], function ($message) use ($request) {
+                $message->to($request->email);
+                $message->subject('Verify Email');
+            });
+
+            return redirect()->route('login')->with('success', 'Account created successfully!');
+        } catch (ValidationException $e) {
+            return redirect()->route('signup')->withErrors($e->errors());
+        } catch (Exception $e) {
+            return redirect()->route('signup')->with('error', $e->getMessage());
+        }
+    }
+    // public function RegisterUser(Request $request)
+    // {
+    //     $validatedData = $request->validate([
+    //         'name' => 'required|max:15',
+    //         'email' => 'required|email|unique:users|max:255',
+    //         'password' => 'required|string|confirmed|min:8',
+    //     ], [
+    //         'name.required' => 'Name is required.',
+    //         'name.max' => 'Name must be less than 15 characters.',
+    //         'email.required' => 'Email is required.',
+    //         'email.email' => 'Email must be a valid email address.',
+    //         'email.max' => 'Email must be less than 255 characters.',
+    //         'password.required' => 'Password is required.',
+    //         'password.string' => 'Password must be a string.',
+    //         'password.confirmed' => 'Password confirmation does not match.',
+    //         'password.min' => 'Password must be at least 8 characters long.',
+    //     ]);
+    //     try {
+    //         $allowedUsers = AllowedUsers::get();
+    //         $emailFound = false;
+    //         foreach ($allowedUsers as $key => $value) {
+    //             if (strtolower($value->email) == strtolower($request->email)) {
+    //                 $emailFound = true;
+    //                 break;
+    //             }
+    //         }
+    //         if ($emailFound) {
+    //             $totalToken = ChatGpt::where('id', 1)->first();
+    //             $data = $validatedData;
+    //             $data['password'] = Hash::make($request->input('password'));
+    //             $data['code'] = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+    //             $data['role'] = 'User';
+    //             $data['lastTokens'] = $totalToken->default_tokens;
+    //             $data['lastDate'] = Carbon::now()->format('Y-m-d');
+    //             $user = User::create($data);
+    //             if ($user) {
+    //                 Mail::send('emails.verifyemail', ['otp' => $user['code']], function ($message) use ($request) {
+    //                     $message->to($request->email);
+    //                     $message->subject('Verify Email');
+    //                 });
+    //                 return redirect()->route('login')->with('success', 'Account Created Successfully!');
+    //             } else {
+    //                 return redirect()->route('signup')->with('error', 'Something went wrong. Please try again later!');
+    //             }
+    //         } else {
+
+    //             return redirect()->back()->with('error', 'Email not found in Google sheet. Contact admin for more details. Thank you!');
+    //         }
+    //     } catch (Exception $e) {
+
+    //         return redirect()->route('signup')->with('error', $e->getMessage());
+    //     }
+    // }
+
+
+    public function postEditAutomation($userId)
+    {
+        try {
+            DB::beginTransaction();
+
+            $user = User::find($userId);
+
+            // Check if the user exists and is a student
+            if ($user && $user->is_user_student == "true") {
+                if ($user->last_login < Carbon::today() || is_null($user->last_login)) {
+                    $user->lastTokens = 5000;
+                    $user->save();
+                }
+            }
+
+            DB::commit();
+            return redirect()->back()->with('success', 'Tokens updated successfully!');
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+
+
+    public function authenticate(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+        ]);
+
+        try {
+            // Check if the email exists in the allowed_users table
+            // $allowedUser = AllowedUsers::where('email', $request->email)->first();
+            // if (!$allowedUser) {
+            //     return redirect()->back()->with('error', 'Email not allowed. Contact admin for more details.');
+            // }
+
+            $credentials = $request->only('email', 'password');
+            if (Auth::attempt($credentials)) {
+                $this->postEditAutomation(Auth::user()->id);
+                User::where('id', Auth::user()->id)->update(['last_login' => Carbon::now()]);
+
+
+                if (Auth::user()->code == true) {
+                    return redirect()->route('VerifyUser');
+                } else {
+                    $totalToken = ChatGpt::where('id', 1)->first();
+                    $user = User::find(Auth::user()->id);
+                    if ($user->lastDate != Carbon::today()->toDateString()) {
+                        $user->lastTokens = $totalToken->default_tokens;
+                        $user->lastDate = Carbon::today()->toDateString();
                         $user->save();
                     }
+                    return redirect()->route('Home');
                 }
-        
-                DB::commit();
-                return redirect()->back()->with('success', 'Tokens updated successfully!');
-            } catch (Exception $e) {
-                DB::rollback();
-                return redirect()->back()->with('error', $e->getMessage());
+            } else {
+                return redirect()->back()->with('error', 'Invalid email or password.');
             }
+        } catch (Exception $e) {
+            return redirect()->route('signup')->with('error', $e->getMessage());
         }
-        
-        
+    }
 
-        public function authenticate(Request $request)
-        {
-            $request->validate([
-                'email' => 'required|email',
-                'password' => 'required|min:8',
-            ]);
-        
-            try {
-                // Check if the email exists in the allowed_users table
-                // $allowedUser = AllowedUsers::where('email', $request->email)->first();
-                // if (!$allowedUser) {
-                //     return redirect()->back()->with('error', 'Email not allowed. Contact admin for more details.');
-                // }
-        
-                $credentials = $request->only('email', 'password');
-                if (Auth::attempt($credentials)) {
-                    $this->postEditAutomation(Auth::user()->id);
-                    User::where('id', Auth::user()->id)->update(['last_login' => Carbon::now()]);
-                    
-    
-                    if (Auth::user()->code == true) {
-                        return redirect()->route('VerifyUser');
-                    } else {
-                        $totalToken = ChatGpt::where('id', 1)->first();
-                        $user = User::find(Auth::user()->id);
-                        if ($user->lastDate != Carbon::today()->toDateString()) {
-                            $user->lastTokens = $totalToken->default_tokens;
-                            $user->lastDate = Carbon::today()->toDateString();
-                            $user->save();
-                        }
-                        return redirect()->route('Home');
-                    }
-                } else {
-                    return redirect()->back()->with('error', 'Invalid email or password.');
-                }
-            } catch (Exception $e) {
-                return redirect()->route('signup')->with('error', $e->getMessage());
-            }
-        }
+    // public function authenticate(Request $request)
 
-        // public function authenticate(Request $request)
+    // {
 
-        // {
-    
-        //     $request->validate([
-    
-        //         'email' => 'required',
-    
-        //         'password' => 'required|min:8',
-    
-        //     ]);
-    
-        //     try {
-        //         if ($request->emaiil == "admin@admin.com") {
-        //             $credentials = $request->only('email', 'password');
-        //             return redirect()->route('Home');
-        //         }
-        //         $allowedUsers = AllowedUsers::get();
-        //         $emailFound = false;
-        //         foreach ($allowedUsers as $key => $value) {
-        //             if (strtolower($value->email) == strtolower($value->email)) {
-        //                 $emailFound = true;
-        //                 break;
-        //             }
-        //         }
-        //         if ($emailFound) {
-    
-        //             $credentials = $request->only('email', 'password');
-                    
-                    
-    
-        //             if (Auth::guard('web')->attempt($credentials)) {
-                        
-        //                 $this->postEditAutomation(Auth::user()->id);
-        //                 User::where('id', Auth::user()->id)->update(['last_login' => Carbon::now()]);
-    
-        //                 if (Auth::user()->code == true) {
-    
-        //                     return redirect()->route('VerifyUser');
-        //                 } else {
-    
-        //                     $totalToken = ChatGpt::where('id', 1)->first();
-    
-        //                     $user_tokens = User::find(Auth::user()->id);
-    
-        //                     if ($user_tokens->lastDate != Carbon::now()->format('Y-m-d')) {
-    
-        //                         $user_tokens->lastTokens = $totalToken->default_tokens;
-    
-        //                         $user_tokens->lastDate = Carbon::now()->format('Y-m-d');
-    
-        //                         $user_tokens->save();
-        //                     }
-                            
-        //                     return redirect()->route('Home');
-        //                 }
-        //             } else {
-    
-        //                 return redirect()->back()->with('error', 'Email or Password is Invalid!');
-        //             }
-        //         } else {
-    
-        //             return redirect()->back()->with('error', 'Email not found in Google sheet. Contact admin for more details. Thank you!');
-        //         }
-        //     } catch (Exception $e) {
-    
-        //         return redirect()->route('signup')->with('error', $e->getMessage());
-        //     }
-        // }
-    
+    //     $request->validate([
+
+    //         'email' => 'required',
+
+    //         'password' => 'required|min:8',
+
+    //     ]);
+
+    //     try {
+    //         if ($request->emaiil == "admin@admin.com") {
+    //             $credentials = $request->only('email', 'password');
+    //             return redirect()->route('Home');
+    //         }
+    //         $allowedUsers = AllowedUsers::get();
+    //         $emailFound = false;
+    //         foreach ($allowedUsers as $key => $value) {
+    //             if (strtolower($value->email) == strtolower($value->email)) {
+    //                 $emailFound = true;
+    //                 break;
+    //             }
+    //         }
+    //         if ($emailFound) {
+
+    //             $credentials = $request->only('email', 'password');
+
+
+
+    //             if (Auth::guard('web')->attempt($credentials)) {
+
+    //                 $this->postEditAutomation(Auth::user()->id);
+    //                 User::where('id', Auth::user()->id)->update(['last_login' => Carbon::now()]);
+
+    //                 if (Auth::user()->code == true) {
+
+    //                     return redirect()->route('VerifyUser');
+    //                 } else {
+
+    //                     $totalToken = ChatGpt::where('id', 1)->first();
+
+    //                     $user_tokens = User::find(Auth::user()->id);
+
+    //                     if ($user_tokens->lastDate != Carbon::now()->format('Y-m-d')) {
+
+    //                         $user_tokens->lastTokens = $totalToken->default_tokens;
+
+    //                         $user_tokens->lastDate = Carbon::now()->format('Y-m-d');
+
+    //                         $user_tokens->save();
+    //                     }
+
+    //                     return redirect()->route('Home');
+    //                 }
+    //             } else {
+
+    //                 return redirect()->back()->with('error', 'Email or Password is Invalid!');
+    //             }
+    //         } else {
+
+    //             return redirect()->back()->with('error', 'Email not found in Google sheet. Contact admin for more details. Thank you!');
+    //         }
+    //     } catch (Exception $e) {
+
+    //         return redirect()->route('signup')->with('error', $e->getMessage());
+    //     }
+    // }
+
     public function PostVerifyUser(Request $request)
 
     {

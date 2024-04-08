@@ -64,9 +64,11 @@ class UserController extends Controller
 
     public function All_histories()
     {
-        $history = History::orderBy('id', 'desc')->get();
-        return view('admin.User.histories', compact('history'));
+        $histories = History::with('user')->orderBy('id', 'desc')->get();
+        $userEmails = $histories->pluck('user.email')->unique();
+        return view('admin.User.allHistories', compact('histories', 'userEmails'));
     }
+
 
 
     public function historyById($id)

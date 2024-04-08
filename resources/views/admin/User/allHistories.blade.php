@@ -2,151 +2,155 @@
 
 @section('title')
 
-    Admin | All Histories
+Admin | All Histories
 
 @endsection
 
 @section('extra-heads')
 
-    <link rel="stylesheet" href="{{ asset('admin') }}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="{{ asset('admin') }}/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
 
-    <link rel="stylesheet" href="{{ asset('admin') }}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="{{ asset('admin') }}/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 
-    <link rel="stylesheet" href="{{ asset('admin') }}/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+<link rel="stylesheet" href="{{ asset('admin') }}/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
 @endsection
 
 @section('content')
 
-    <div class="content-wrapper">
+<div class="content-wrapper">
 
-        <section class="content-header">
+    <section class="content-header">
 
-            <div class="container-fluid">
+        <div class="container-fluid">
 
-                <div class="row mb-2">
+            <div class="row mb-2">
 
-                    <div class="col-sm-6">
+                <div class="col-sm-6">
 
-                        <h1>Histories DataTables</h1>
-
-                    </div>
+                    <h1>All Histories DataTable</h1>
 
                 </div>
 
             </div>
 
-        </section>
+        </div>
 
-        <section class="content">
+    </section>
 
-            <div class="container-fluid">
+    <section class="content">
 
-                <div class="row">
+        <div class="container-fluid">
 
-                    <div class="col-12">
+            <div class="row">
 
-                        <div class="card">
+                <div class="col-12">
 
-                            <div class="card-header">
+                    <div class="card">
 
-                                <h3 class="card-title">All Histories DataTable</h3>
+                        <div class="card-body">
 
-                            </div>
+                            <table id="example1" class="table table-bordered table-striped">
 
-                            <div class="card-body">
+                                <div class="d-flex justify-content-between py-3">
+                                    <h3 class="card-title pr-3 text-left fw-bold ">Use Table</h3>
+                                    <div class="justify-content-end">
+                                        <h3 class="card-title pr-3">Search by User:</h3>
+                                        <select id="userFilter">
+                                            <option value="">Select User</option>
+                                            @foreach ($userEmails as $email)
+                                            <option value="{{ $email }}">{{ $email }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
 
-                                <table id="example1" class="table table-bordered table-striped">
+                                <thead>
 
-                                    <thead>
+                                    <tr>
 
-                                        <tr>
+                                        <th class="text-center">Id</th>
 
-                                            <th class="text-center">Id</th>
+                                        <th class="text-center">Type</th>
 
-                                            <th class="text-center">Type</th>
+                                        <th class="text-center">Brand Name</th>
 
-                                            <th class="text-center">Brand Name</th>
+                                        <th class="text-center">Description</th>
 
-                                            <th class="text-center">Description</th>
+                                        <th class="text-center">Bullet Points</th>
 
-                                            <th class="text-center">Bullet Points</th>
+                                        <th class="text-center">Date</th>
 
-                                            <th class="text-center">Promotion Type</th>
+                                        <th class="text-center">Language</th>
 
-                                            <th class="text-center">Date</th>
+                                        <th class="text-center">View</th>
 
-                                            <th class="text-center">Language</th>
-
-                                            <th class="text-center">View</th>
+                                        <th class="text-center">User</th>
 
 
 
-                                        </tr>
+                                    </tr>
 
-                                    </thead>
+                                </thead>
 
-                                    @php
+                                @php
 
-                                        $i = 1;
+                                $i = 1;
 
-                                    @endphp
+                                @endphp
 
-                                    <tbody>
+                                <tbody>
 
-                                        @foreach ($history as $history)
+                                    @foreach ($histories as $history)
 
-                                            <tr>
+                                    <tr data-email="{{ $history->user->email }}">
 
-                                                <td class="text-center">{{ $i++ }}</td>
+                                        <td class=" text-center">{{ $i++ }}</td>
 
-                                                <td class="text-center">{{ $history->prompt['type'] }}
+                                        <td class="text-center">{{ $history->prompt['type'] }}
 
-                                                </td>
+                                        </td>
 
-                                                <td class="text-center">{{ $history->prompt['brand'] }}
+                                        <td class="text-center">{{ $history->prompt['brand'] }}
 
-                                                </td>
+                                        </td>
 
-                                                <td class="text-center">
+                                        <td class="text-center">
 
-                                                    {{ $history->prompt['desc_brand'] }}</td>
+                                            {{ $history->prompt['desc_brand'] }}
+                                        </td>
 
-                                                <td class="text-center">
+                                        <td class="text-center">
 
-                                                    {{ $history->prompt['better_brand'] }}</td>
+                                            {{ $history->prompt['better_brand'] }}
+                                        </td>
 
-                                                <td class="text-center">
 
-                                                    {{ isset($history->prompt['date_type']) ? $history->prompt['date_type'] : 'null' }}
+                                        <td class="text-center">
 
-                                                </td>
+                                            {{ isset($history->created_at) ? $history->created_at : 'null' }}
 
-                                                <td class="text-center">
+                                        </td>
 
-                                                    {{ isset($history->prompt['end_date']) ? $history->prompt['end_date'] : 'null' }}
+                                        <td class="text-center">{{ $history->prompt['lang'] }}
 
-                                                </td>
+                                        </td>
 
-                                                <td class="text-center">{{ $history->prompt['lang'] }}
+                                        <td class="text-center"><a href="{{ route('users.historyById', $history->id) }}">View</a>
 
-                                                </td>
+                                        </td>
+                                        <td class="text-center">
+                                            <p>{{ $history->user->email }}</p>
+                                        </td>
 
-                                                <td class="text-center"><a
 
-                                                        href="{{ route('users.historyById', $history->id) }}">View</a>
+                                    </tr>
 
-                                                </td>
+                                    @endforeach
 
-                                            </tr>
+                                </tbody>
 
-                                        @endforeach
-
-                                    </tbody>
-
-                                </table>
-
-                            </div>
+                            </table>
 
                         </div>
 
@@ -156,109 +160,123 @@
 
             </div>
 
-        </section>
+        </div>
 
-    </div>
+    </section>
+
+</div>
 
 @endsection
 
 @section('extra-scripts')
 
-    <script src="{{ asset('admin') }}/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="{{ asset('admin') }}/plugins/datatables/jquery.dataTables.min.js"></script>
 
-    <script src="{{ asset('admin') }}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="{{ asset('admin') }}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 
-    <script src="{{ asset('admin') }}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="{{ asset('admin') }}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 
-    <script src="{{ asset('admin') }}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="{{ asset('admin') }}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 
-    <script src="{{ asset('admin') }}/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="{{ asset('admin') }}/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
 
-    <script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
 
-    <script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 
-    <script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 
-    <script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="{{ asset('admin') }}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
-    <script>
+<script>
+    $(function() {
 
-        $(function() {
+        $("#example1").DataTable({
 
-            $("#example1").DataTable({
+            "responsive": true,
 
-                "responsive": true,
+            "lengthChange": false,
 
-                "lengthChange": false,
+            "autoWidth": false,
 
-                "autoWidth": false,
+            "buttons": ["copy", "csv", "excel", "pdf", "print"]
 
-                "buttons": ["copy", "csv", "excel", "pdf", "print"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
 
-            $('#example2').DataTable({
+            "paging": true,
 
-                "paging": true,
+            "lengthChange": false,
 
-                "lengthChange": false,
+            "searching": false,
 
-                "searching": false,
+            "ordering": true,
 
-                "ordering": true,
+            "info": true,
 
-                "info": true,
+            "autoWidth": false,
 
-                "autoWidth": false,
+            "responsive": true,
 
-                "responsive": true,
+        });
+
+    });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+    $('.show_confirm').click(function(event) {
+
+        var form = $(this).closest("form");
+
+        var name = $(this).data("name");
+
+        event.preventDefault();
+
+        swal({
+
+                title: `Are you sure you want to delete this record?`,
+
+                text: "If you delete this, it will be gone forever.",
+
+                icon: "warning",
+
+                buttons: true,
+
+                dangerMode: true,
+
+            })
+
+            .then((willDelete) => {
+
+                if (willDelete) {
+
+                    form.submit();
+
+                }
 
             });
 
+    });
+</script>
+<script>
+    document.getElementById('userFilter').addEventListener('change', function() {
+        const selectedEmail = this.value;
+        const historyRows = document.querySelectorAll('#example1 tbody tr');
+
+        // Loop through each history row and show/hide based on the selected user email
+        historyRows.forEach(row => {
+            const rowEmail = row.getAttribute('data-email');
+            if (!selectedEmail || rowEmail === selectedEmail) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
         });
+    });
+</script>
 
-    </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-
-    <script type="text/javascript">
-
-        $('.show_confirm').click(function(event) {
-
-            var form = $(this).closest("form");
-
-            var name = $(this).data("name");
-
-            event.preventDefault();
-
-            swal({
-
-                    title: `Are you sure you want to delete this record?`,
-
-                    text: "If you delete this, it will be gone forever.",
-
-                    icon: "warning",
-
-                    buttons: true,
-
-                    dangerMode: true,
-
-                })
-
-                .then((willDelete) => {
-
-                    if (willDelete) {
-
-                        form.submit();
-
-                    }
-
-                });
-
-        });
-
-    </script>
 
 @endsection
-

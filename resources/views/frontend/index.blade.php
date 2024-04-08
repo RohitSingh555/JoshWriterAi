@@ -41,7 +41,7 @@
     <meta property="og:type" content="website">
 
     <meta property="og:site_name" content="Josh Writer Ai">
-    
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
@@ -50,7 +50,6 @@
 </head>
 
 <style>
-
     @media (min-width: 1400px) {
 
         .container {
@@ -80,7 +79,6 @@
         border-radius: 20px;
 
         border: none
-
     }
 
 
@@ -92,27 +90,26 @@
     }
 
     .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #fff;
-            border: 2px solid #22D4C4;
-            padding: 40px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            z-index: 9999;
-            display: none;
-            font-weight: bold;
-            color: #151B3B;
-            font-size: 20px;
-        }
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        border: 2px solid #22D4C4;
+        padding: 40px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+        display: none;
+        font-weight: bold;
+        color: #151B3B;
+        font-size: 20px;
+    }
 
-        .popup.show {
-            display: block;
-        }
-
+    .popup.show {
+        display: block;
+    }
 </style>
 
 
@@ -123,15 +120,9 @@
 
         <div class="container-fluid">
 
-            <a class="navbar-brand" href="#"><img src="{{ asset('frontend/images/logo.png') }}"
+            <a class="navbar-brand" href="#"><img src="{{ asset('frontend/images/logo.png') }}" alt=""></a>
 
-                    alt=""></a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"
-
-                style="background: white">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" style="background: white">
 
                 <span class="navbar-toggler-icon"></span>
 
@@ -164,55 +155,61 @@
                     <!--        style="color: white;     padding: 5px 50px 0px 0px;">Pricing</a>-->
 
                     </li>
+                    <li class="nav-item user-tokens fw-bold align-items-baseline d-flex px-4">
+                        <span class="text-white me-2">
+                            <span class="text-white">Tokens: &nbsp; </span>
+                            <i class="fas fa-coins" style="font-size: 27px;" title="Tokens"></i>
+
+                        </span>
+                        <span class="tokens text-white font-weight-bold">{{ $user_last_tokens }}</span>
+                    </li>
+
+
 
                     <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; padding: 5px 50px 0px 0px;">
-        <img src="{{ asset('frontend/images/user.png') }}" alt="">
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Change Password</a></li>
-    </ul>
-</li>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; padding: 5px 50px 0px 0px;">
+                            <img src="{{ asset('frontend/images/user.png') }}" alt="">
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Change Password</a></li>
+                        </ul>
+                    </li>
 
-<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="background-color: #22d4c4;">
-            <div class="modal-header">
-                <h5 class="modal-title text-white" id="exampleModalLabel">Change Password</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="changePasswordForm">
-                    <div class="mb-3">
-                        <label for="oldPassword" class="form-label text-white">Current Password</label>
-                        <input type="password" class="form-control" id="oldPassword" style="background-color: #fff;">
+                    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content" style="background-color: #22d4c4;">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-white" id="exampleModalLabel">Change Password</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="changePasswordForm">
+                                        <div class="mb-3">
+                                            <label for="oldPassword" class="form-label text-white">Current Password</label>
+                                            <input type="password" class="form-control" id="oldPassword" style="background-color: #fff;">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="newPassword" class="form-label text-white">New Password</label>
+                                            <input type="password" class="form-control" id="newPassword" style="background-color: #fff;">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="repeatNewPassword" class="form-label text-white">Repeat New Password</label>
+                                            <input type="password" class="form-control" id="repeatNewPassword" style="background-color: #fff;">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="closeModalBtn">Close</button>
+                                    <button type="button" class="btn btn-dark" id="saveChangesBtn">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="newPassword" class="form-label text-white">New Password</label>
-                        <input type="password" class="form-control" id="newPassword" style="background-color: #fff;">
-                    </div>
-                    <div class="mb-3">
-                        <label for="repeatNewPassword" class="form-label text-white">Repeat New Password</label>
-                        <input type="password" class="form-control" id="repeatNewPassword" style="background-color: #fff;">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="closeModalBtn">Close</button>
-<button type="button" class="btn btn-dark" id="saveChangesBtn">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
                     <li class="nav-item">
 
-                        <a class="nav-link active" aria-current="page" href="{{ route('logout') }}"
-
-                            style="color: white; padding: 5px 50px 0px 0px;"><i class="nav-icon fas fa-power-off"
-
-                                style="font-size: 27px;" title="Logout"></i></a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('logout') }}" style="color: white; padding: 5px 50px 0px 0px;"><i class="nav-icon fas fa-power-off" style="font-size: 27px;" title="Logout"></i></a>
 
                     </li>
 
@@ -238,119 +235,89 @@
 
                         <div class="card-body">
 
-                            <h5 class="card-title"><img src="{{ asset('frontend/images/prompt.png') }}" alt=""
-
-                                    style="margin-top: -2px;"> <span>PROMPTS</span></h5>
+                            <h5 class="card-title"><img src="{{ asset('frontend/images/prompt.png') }}" alt="" style="margin-top: -2px;"> <span>PROMPTS</span></h5>
 
                             <hr>
 
                             @if ($name == 'social-media-ad-copy-creation')
 
-                                <a href="{{ route('CreatePost', 'social-media-ad-copy-creation') }}"
+                            <a href="{{ route('CreatePost', 'social-media-ad-copy-creation') }}" style="text-decoration: none; color:#23D4C4;">
 
-                                    style="text-decoration: none; color:#23D4C4;">
+                                <h5 class="card-title"><img src="{{ asset('frontend/images/social.png') }}" alt="" style="margin-top: -2px;"> <span class="highlight-text">Social
 
-                                    <h5 class="card-title"><img src="{{ asset('frontend/images/social.png') }}"
+                                        Media Ad Copy
 
-                                            alt="" style="margin-top: -2px;"> <span
+                                        Creation</span></h5>
 
-                                            class="highlight-text">Social
-
-                                            Media Ad Copy
-
-                                            Creation</span></h5>
-
-                                </a>
+                            </a>
 
                             @else
 
-                                <a href="{{ route('CreatePost', 'social-media-ad-copy-creation') }}"
+                            <a href="{{ route('CreatePost', 'social-media-ad-copy-creation') }}" style="text-decoration: none; color:black;">
 
-                                    style="text-decoration: none; color:black;">
+                                <h5 class="card-title"><img src="{{ asset('frontend/images/social.png') }}" alt="" style="margin-top: -2px;"> <span class="highlight-text">Social
 
-                                    <h5 class="card-title"><img src="{{ asset('frontend/images/social.png') }}"
+                                        Media Ad Copy
 
-                                            alt="" style="margin-top: -2px;"> <span
+                                        Creation</span></h5>
 
-                                            class="highlight-text">Social
-
-                                            Media Ad Copy
-
-                                            Creation</span></h5>
-
-                                </a>
+                            </a>
 
                             @endif
 
                             @if ($name == 'email-copy-creation')
 
-                                <a href="{{ route('CreatePost', 'email-copy-creation') }}"
+                            <a href="{{ route('CreatePost', 'email-copy-creation') }}" style="text-decoration: none; color:#23D4C4;">
 
-                                    style="text-decoration: none; color:#23D4C4;">
+                                <h5 class="card-title"><img src="{{ asset('frontend/images/mail.png') }}" alt="" style="margin-top: -2px;"> <span class="highlight-text">Email
 
-                                    <h5 class="card-title"><img src="{{ asset('frontend/images/mail.png') }}"
+                                        Copy
 
-                                            alt="" style="margin-top: -2px;"> <span
+                                        Creation</span>
 
-                                            class="highlight-text">Email
+                                </h5>
 
-                                            Copy
-
-                                            Creation</span>
-
-                                    </h5>
-
-                                </a>
+                            </a>
 
                             @else
 
-                                <a href="{{ route('CreatePost', 'email-copy-creation') }}"
+                            <a href="{{ route('CreatePost', 'email-copy-creation') }}" style="text-decoration: none; color:black;">
 
-                                    style="text-decoration: none; color:black;">
+                                <h5 class="card-title"><img src="{{ asset('frontend/images/mail.png') }}" alt="" style="margin-top: -2px;"> <span class="highlight-text">Email
 
-                                    <h5 class="card-title"><img src="{{ asset('frontend/images/mail.png') }}"
+                                        Copy
 
-                                            alt="" style="margin-top: -2px;"> <span
+                                        Creation</span>
 
-                                            class="highlight-text">Email
+                                </h5>
 
-                                            Copy
-
-                                            Creation</span>
-
-                                    </h5>
-
-                                </a>
+                            </a>
 
                             @endif
 
                             @if ($name == 'history')
 
-                                <a href="{{ route('history') }}" style="text-decoration: none; color:#23D4C4;">
+                            <a href="{{ route('history') }}" style="text-decoration: none; color:#23D4C4;">
 
-                                    <h5 class="card-title"><i class="fas fa-history"></i> <span
+                                <h5 class="card-title"><i class="fas fa-history"></i> <span class="highlight-text">
 
-                                            class="highlight-text">
+                                        History</span>
 
-                                            History</span>
+                                </h5>
 
-                                    </h5>
-
-                                </a>
+                            </a>
 
                             @else
 
-                                <a href="{{ route('history') }}" style="text-decoration: none; color:black;">
+                            <a href="{{ route('history') }}" style="text-decoration: none; color:black;">
 
-                                    <h5 class="card-title"><i class="fas fa-history"></i> <span
+                                <h5 class="card-title"><i class="fas fa-history"></i> <span class="highlight-text">
 
-                                            class="highlight-text">
+                                        History</span>
 
-                                            History</span>
+                                </h5>
 
-                                    </h5>
-
-                                </a>
+                            </a>
 
                             @endif
 
@@ -368,17 +335,17 @@
 
                             @if ($name == 'social-media-ad-copy-creation')
 
-                                <h5 class="card-title" style="text-align: center">Create a social media post</h5>
+                            <h5 class="card-title" style="text-align: center">Create a social media post</h5>
 
-                                <!--<h6 class="card-subtitle mb-2 text-muted" style="text-align: center">(WITH IMAGES)-->
+                            <!--<h6 class="card-subtitle mb-2 text-muted" style="text-align: center">(WITH IMAGES)-->
 
-                                </h6>
+                            </h6>
 
                             @endif
 
                             @if ($name == 'email-copy-creation')
 
-                                <h5 class="card-title" style="text-align: center">Email Copy Creation</h5>
+                            <h5 class="card-title" style="text-align: center">Email Copy Creation</h5>
 
                             @endif
 
@@ -398,11 +365,7 @@
 
                                             <label style="font-weight: 600">Business/Brand Name*</label>
 
-                                            <input type="text" class="form-control"
-
-                                                placeholder="Type Here Your Business Name/Brand Name Here"
-
-                                                style="margin-top: 20px;" name="brand" required>
+                                            <input type="text" class="form-control" placeholder="Type Here Your Business Name/Brand Name Here" style="margin-top: 20px;" name="brand" required>
 
                                             <div class="row">
 
@@ -414,9 +377,7 @@
 
                                                 <div class="col-6">
 
-                                                    <p style="text-align: end; font-weight: 500; color: red;"><span
-
-                                                            id="brandCharCount">50</span> / 50</p>
+                                                    <p style="text-align: end; font-weight: 500; color: red;"><span id="brandCharCount">50</span> / 50</p>
 
                                                 </div>
 
@@ -436,9 +397,7 @@
 
                                                 Product/Service*</label>
 
-                                            <textarea id="desc_brand" name="desc_brand" cols="30" rows="7" class="form-control"
-
-                                                placeholder="Type Here A Short Description About Your Brand" required></textarea>
+                                            <textarea id="desc_brand" name="desc_brand" cols="30" rows="7" class="form-control" placeholder="Type Here A Short Description About Your Brand" required></textarea>
 
                                             <div class="row">
 
@@ -450,9 +409,7 @@
 
                                                 <div class="col-6">
 
-                                                    <p style="text-align: end; font-weight: 500; color: red;"><span
-
-                                                            id="descBrandCharCount">350</span> / 350
+                                                    <p style="text-align: end; font-weight: 500; color: red;"><span id="descBrandCharCount">350</span> / 350
 
                                                     </p>
 
@@ -472,9 +429,7 @@
 
                                                 product/service better than others*</label>
 
-                                            <textarea type="text" name="better_brand" id="" cols="30" rows="6" class="form-control"
-
-                                                placeholder="1. Type Here Bullet Points" required></textarea>
+                                            <textarea type="text" name="better_brand" id="" cols="30" rows="6" class="form-control" placeholder="1. Type Here Bullet Points" required></textarea>
 
                                             <div class="row">
 
@@ -486,9 +441,7 @@
 
                                                 <div class="col-6">
 
-                                                    <p style="text-align: end; font-weight: 500; color: red;"><span
-
-                                                            id="betterBrandCharCount">100</span> /
+                                                    <p style="text-align: end; font-weight: 500; color: red;"><span id="betterBrandCharCount">100</span> /
 
                                                         100</p>
 
@@ -506,55 +459,51 @@
 
                                         @if ($name == 'email-copy-creation')
 
-                                            <input type="text" hidden name="type" value="email-copy-creation">
+                                        <input type="text" hidden name="type" value="email-copy-creation">
 
                                         @endif
 
                                         @if ($name == 'social-media-ad-copy-creation')
 
-                                            <input type="text" hidden name="type"
-
-                                                value="social-media-ad-copy-creation">
+                                        <input type="text" hidden name="type" value="social-media-ad-copy-creation">
 
                                         @endif
 
                                         @if ($name == 'email-copy-creation')
 
-                                            <label style="font-weight: 600">Promotion - Is this a limited time or offer
+                                        <label style="font-weight: 600">Promotion - Is this a limited time or offer
 
-                                                ends on
+                                            ends on
 
-                                                date?*</label>
+                                            date?*</label>
 
-                                            <div class="row">
+                                        <div class="row">
 
-                                                <div class="col-lg-4" style="margin-top: 20px; margin-bottom: 20px;">
+                                            <div class="col-lg-4" style="margin-top: 20px; margin-bottom: 20px;">
 
-                                                    <select id="dateType" class="form-control" name="date_type"
+                                                <select id="dateType" class="form-control" name="date_type" required>
 
-                                                        required>
+                                                    <option value="">Select</option>
 
-                                                        <option value="">Select</option>
+                                                    <option value="Limited">Limited</option>
 
-                                                        <option value="Limited">Limited</option>
+                                                    <option value="EndOfDate">End Of Date</option>
 
-                                                        <option value="EndOfDate">End Of Date</option>
+                                                </select>
 
-                                                    </select>
+                                            </div>
 
-                                                </div>
+                                            <div class="col-lg-4" style="margin-top: 20px; margin-bottom: 20px;">
 
-                                                <div class="col-lg-4" style="margin-top: 20px; margin-bottom: 20px;">
+                                                <div id="dateField" style="display: none;">
 
-                                                    <div id="dateField" style="display: none;">
-
-                                                        <input type="date" class="form-control" name="end_date">
-
-                                                    </div>
+                                                    <input type="date" class="form-control" name="end_date">
 
                                                 </div>
 
                                             </div>
+
+                                        </div>
 
                                         @endif
 
@@ -598,9 +547,7 @@
 
                                         <div class="col-12" style="    text-align: center;">
 
-                                            <button type="submit" class="btn btn-success"
-
-                                                style="background: #151B3B;
+                                            <button type="submit" class="btn btn-success" style="background: #151B3B;
 
                                                 padding: 10px 30px 14px 30px;">Generate</button>
 
@@ -631,7 +578,6 @@
 
 
     <script>
-
         // Get the input fields and character count display elements by their IDs
 
         const brandInput = document.querySelector('input[name="brand"]');
@@ -721,11 +667,9 @@
             }
 
         });
-
     </script>
 
     <script>
-
         $(document).ready(function() {
 
             $(".card-title").click(function() {
@@ -737,47 +681,41 @@
             });
 
         });
-
     </script>
 
     <script>
+        @if(Session::has('error'))
 
-        @if (Session::has('error'))
+        toastr.options = {
 
-            toastr.options = {
+            "closeButton": true,
 
-                "closeButton": true,
+            "progressBar": true
 
-                "progressBar": true
+        }
 
-            }
-
-            toastr.error("{{ session('error') }}");
+        toastr.error("{{ session('error') }}");
 
         @endif
-
     </script>
 
     <script>
+        @if(Session::has('success'))
 
-        @if (Session::has('success'))
+        toastr.options = {
 
-            toastr.options = {
+            "closeButton": true,
 
-                "closeButton": true,
+            "progressBar": true
 
-                "progressBar": true
+        }
 
-            }
-
-            toastr.success("{{ session('success') }}");
+        toastr.success("{{ session('success') }}");
 
         @endif
-
     </script>
 
     <script>
-
         const dateTypeSelect = document.getElementById('dateType');
 
         const dateField = document.getElementById('dateField');
@@ -797,61 +735,58 @@
             }
 
         });
-
     </script>
 
-<script>
-   document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('changePasswordForm');
-    const saveChangesBtn = document.getElementById('saveChangesBtn');
-    const closeModalBtn = document.getElementById('closeModalBtn');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('changePasswordForm');
+            const saveChangesBtn = document.getElementById('saveChangesBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
 
-    saveChangesBtn.addEventListener('click', function() {
-        const oldPassword = document.getElementById('oldPassword').value;
-        const newPassword = document.getElementById('newPassword').value;
-        const repeatNewPassword = document.getElementById('repeatNewPassword').value;
-        var userEmail = "{{ Auth::user()->email }}";
+            saveChangesBtn.addEventListener('click', function() {
+                const oldPassword = document.getElementById('oldPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const repeatNewPassword = document.getElementById('repeatNewPassword').value;
+                var userEmail = "{{ Auth::user()->email }}";
 
-        const formData = new FormData();
-        formData.append('email', userEmail);
-        formData.append('oldPassword', oldPassword);
-        formData.append('newPassword', newPassword);
-        formData.append('repeatNewPassword', repeatNewPassword);
+                const formData = new FormData();
+                formData.append('email', userEmail);
+                formData.append('oldPassword', oldPassword);
+                formData.append('newPassword', newPassword);
+                formData.append('repeatNewPassword', repeatNewPassword);
 
-        fetch('/change-password', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            const popup = document.createElement('div');
-            popup.classList.add('popup');
-            popup.textContent = data.success ? 'Password changed successfully. Please log in again.' : 'Failed to change password. Please try again.';
-            document.body.appendChild(popup);
+                fetch('/change-password', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        const popup = document.createElement('div');
+                        popup.classList.add('popup');
+                        popup.textContent = data.success ? 'Password changed successfully. Please log in again.' : 'Failed to change password. Please try again.';
+                        document.body.appendChild(popup);
 
-            popup.classList.add('show');
+                        popup.classList.add('show');
 
-            setTimeout(function() {
-                popup.classList.remove('show');
-                window.location.href = '/logout';
-            }, 2000);
-        })
+                        setTimeout(function() {
+                            popup.classList.remove('show');
+                            window.location.href = '/logout';
+                        }, 2000);
+                    })
 
-        .catch(error => {
-            console.error('Error:', error);
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+
+            closeModalBtn.addEventListener('click', function() {
+                $('#changePasswordModal').modal('hide');
+            });
         });
-    });
-
-    closeModalBtn.addEventListener('click', function() {
-        $('#changePasswordModal').modal('hide');
-    });
-});
-
-
-</script>
+    </script>
 
 
 </body>
@@ -859,4 +794,3 @@
 
 
 </html>
-

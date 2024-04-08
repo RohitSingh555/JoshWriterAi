@@ -77,7 +77,7 @@ Route::prefix('admin')->group(function () {
 
                 Route::get('/histories/{id}', [UserController::class, 'histories'])->name('users.histories');
                 Route::get('/history-by-id/{id}', [UserController::class, 'historyById'])->name('users.historyById');
-                Route::get('/history', [UserController::class, 'All_histories'])->name('allowed_users.history');
+                Route::get('/history', [UserController::class, 'All_histories'])->name('users.history');
 
                 Route::get('/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
 
@@ -87,8 +87,8 @@ Route::prefix('admin')->group(function () {
                 Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('users.delete');
                 Route::post('/upload-csv', [CSVController::class, 'readCsvFile'])->name('upload.csv');
             });
-            
-            
+
+
             Route::prefix('allowed-users')->group(function () {
                 Route::get('/get', [AllowedUsersController::class, 'get'])->name('allowed_users.get');
                 Route::post('/store', [AllowedUsersController::class, 'store'])->name('allowed_users.store');
