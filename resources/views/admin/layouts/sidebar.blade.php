@@ -36,7 +36,12 @@
                         </p>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a href="{{ route('payment_log') }}" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>Payment Log</p>
+                    </a>
+                </li>
                 @if (Auth::user()->role == 'Admin')
                 <li class="nav-item">
                     <a href="{{ route('allowed_users.get') }}" class="nav-link">

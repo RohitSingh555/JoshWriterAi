@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ChatGptController;
 use App\Http\Controllers\CSVController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\GoogleSheetsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,9 @@ Route::middleware('VerifyAccount')->group(function () {
     Route::group(['middleware' => 'auth:web'], function () {
         Route::get('/', [AuthController::class, 'ShowHomePage'])->name('Home');
         Route::get('/home', [AuthController::class, 'ShowHomePage']);
+        Route::get('/purchase', [StripeController::class, 'purchase'])->name('purchase');
+        Route::post('/checkout', [StripeController::class, 'checkout'])->name('checkout');
+        Route::get('/payment_confirmed', [StripeController::class, 'payment_confirmed'])->name('payment_confirmed');
         Route::get('/history', [AuthController::class, 'history'])->name('history');
         Route::get('/history/{id}', [AuthController::class, 'historyByID'])->name('historyByID');
         Route::get('/variation', [AuthController::class, 'variation']);
@@ -85,6 +89,7 @@ Route::prefix('admin')->group(function () {
 
                 Route::post('/post-edit', [UserController::class, 'postEdit'])->name('users.postEdit');
                 Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('users.delete');
+                Route::get('/payment_log', [StripeController::class, 'payment_log'])->name('payment_log');
                 Route::post('/upload-csv', [CSVController::class, 'readCsvFile'])->name('upload.csv');
             });
 

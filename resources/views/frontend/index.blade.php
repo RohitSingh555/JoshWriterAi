@@ -119,6 +119,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background: #151B3B !important">
 
         <div class="container-fluid">
+            
 
             <a class="navbar-brand" href="#"><img src="{{ asset('frontend/images/logo.png') }}" alt=""></a>
 
@@ -155,14 +156,17 @@
                     <!--        style="color: white;     padding: 5px 50px 0px 0px;">Pricing</a>-->
 
                     </li>
-                    <li class="nav-item user-tokens fw-bold align-items-baseline d-flex px-4">
-                        <span class="text-white me-2">
-                            <span class="text-white">Tokens: &nbsp; </span>
-                            <i class="fas fa-coins" style="font-size: 27px;" title="Tokens"></i>
+                    <li class="nav-item user-tokens fw-bold align-items-baseline d-flex px-4" style=" box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+    <span class="text-white me-2">
+        <span class="text-white">Tokens: &nbsp; </span>
+        <i class="fas fa-coins text-white" style="font-size: 27px;" title="Tokens"></i>
+    </span>
+    <span class="tokens text-white font-weight-bold">{{ $user_last_tokens }} &nbsp;</span>
+    <a class="btn btn-sm" href="{{ route('purchase') }}" style=" border: 1px solid white;background-color:black;color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
+        <i class="fas fa-plus"></i> &nbsp;Add
+    </a>
+</li>
 
-                        </span>
-                        <span class="tokens text-white font-weight-bold">{{ $user_last_tokens }}</span>
-                    </li>
 
 
 
