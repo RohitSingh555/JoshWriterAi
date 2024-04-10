@@ -53,7 +53,7 @@ Admin | All Histories
                             <table id="example1" class="table table-bordered table-striped">
 
                                 <div class="d-flex justify-content-between py-3">
-                                    <h3 class="card-title pr-3 text-left fw-bold ">Use Table</h3>
+                                    <h3 class="card-title pr-3 text-left fw-bold ">User Table</h3>
                                     <div class="justify-content-end">
                                         <h3 class="card-title pr-3">Search by User:</h3>
                                         <select id="userFilter">
@@ -127,8 +127,9 @@ Admin | All Histories
 
 
                                         <td class="text-center">
+                                            {{ \Carbon\Carbon::parse($history->created_at)->diffForHumans() }}
 
-                                            {{ isset($history->created_at) ? $history->created_at : 'null' }}
+                                            <!-- {{ isset($history->created_at) ? $history->created_at : 'null' }} -->
 
                                         </td>
 

@@ -190,6 +190,7 @@ class UserController extends Controller
             $data['password'] = Hash::make($request->password);
             $data['lastTokens'] = $totalToken->default_tokens;
             $data['lastDate'] = Carbon::now()->format('Y-m-d');
+            $data['is_user_student'] = $request->is_user_student;
 
             $user = User::create($data);
 

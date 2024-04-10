@@ -119,7 +119,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background: #151B3B !important">
 
         <div class="container-fluid">
-            
+
 
             <a class="navbar-brand" href="#"><img src="{{ asset('frontend/images/logo.png') }}" alt=""></a>
 
@@ -157,22 +157,22 @@
 
                     </li>
                     <li class="nav-item user-tokens fw-bold align-items-baseline d-flex px-4" style=" box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-    <span class="text-white me-2">
-        <span class="text-white">Tokens: &nbsp; </span>
-        <i class="fas fa-coins text-white" style="font-size: 27px;" title="Tokens"></i>
-    </span>
-    <span class="tokens text-white font-weight-bold">{{ $user_last_tokens }} &nbsp;</span>
-    <a class="btn btn-sm" href="{{ route('purchase') }}" style=" border: 1px solid white;background-color:black;color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
-        <i class="fas fa-plus"></i> &nbsp;Add
-    </a>
-</li>
+                        <span class="text-white me-2">
+                            <span class="text-white"></span>
+                            <i class="fas fa-coins text-white" style="font-size: 27px;" title="Tokens"></i>
+                        </span>
+                        <span class="tokens text-white font-weight-bold">{{ $user_last_tokens }} &nbsp;</span>
+                        <a class="btn btn-sm" href="{{ route('purchase') }}" style=" border: 2px solid white;color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); font-weight:600;">
+                            <i class="fas fa-plus"></i> &nbsp;Add Tokens
+                        </a>
+                    </li>
 
 
 
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; padding: 5px 50px 0px 0px;">
-                            <img src="{{ asset('frontend/images/user.png') }}" alt="">
+                            <img style="width: 24px;" src="{{ asset('frontend/images/user.png') }}" alt="">
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Change Password</a></li>

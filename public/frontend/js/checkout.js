@@ -1,7 +1,9 @@
-const stripe = Stripe("pk_test_51Otk6DSBPvmtcj8rogFi1FcMoIFz6q3H5XQxkKttTsjMYlSaBdX0PrOi4CCqaMJ2fco0VO1fLiGqWTEVoCs6joXk00UZSKeT1W");
+const stripe = Stripe(
+    "pk_test_51P3c7OD79EpI7B99o5cX9MkEGXgf1LzUWwqsgfZZztjX9QlFaLCxgQmPBfQOBKMgoieGlX4Vghzqki41hOP0N94N00hhyEBJ45"
+);
 
 // The items the customer wants to buy
-const items = [{id: "xl-tshirt"}];
+const items = [{ id: "xl-tshirt" }];
 
 let elements;
 
@@ -14,8 +16,8 @@ document
 
 // Fetches a payment intent and captures the client secret
 async function initialize() {
-    let clientSecret = $('#secret').val();
-    elements = stripe.elements({clientSecret});
+    let clientSecret = $("#secret").val();
+    elements = stripe.elements({ clientSecret });
     const paymentElementOptions = {
         layout: "tabs",
     };
@@ -28,8 +30,8 @@ async function handleSubmit(e) {
     setLoading(true);
 
     try {
-        let url = $('#payment_success_url').val();
-        const {error} = await stripe.confirmPayment({
+        let url = $("#payment_success_url").val();
+        const { error } = await stripe.confirmPayment({
             elements,
             confirmParams: {
                 return_url: url,
@@ -50,12 +52,14 @@ async function handleSubmit(e) {
 
 // Fetches the payment intent status after payment submission
 async function checkStatus() {
-    const clientSecret = new URLSearchParams(window.location.search).get("payment_intent_client_secret");
+    const clientSecret = new URLSearchParams(window.location.search).get(
+        "payment_intent_client_secret"
+    );
     if (!clientSecret) {
         return;
     }
 
-    const {paymentIntent} = await stripe.retrievePaymentIntent(clientSecret);
+    const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
     switch (paymentIntent.status) {
         case "succeeded":
             showMessage("Payment succeeded!");

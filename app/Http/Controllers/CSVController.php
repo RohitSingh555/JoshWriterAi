@@ -24,7 +24,6 @@ class CSVController extends Controller
 
         try {
             if ($request->hasfile('file')) {
-                // Move uploaded file to public/csv directory with a random filename
                 $fileName = time() . '_' . $request->file->getClientOriginalName();
                 $request->file->move(public_path('csv'), $fileName);
             } else {
@@ -35,29 +34,40 @@ class CSVController extends Controller
             $csv = Reader::createFromPath($csvFile, 'r');
             $csvData = $csv->getRecords();
 
+            $createdUserEmails = [];
+
             foreach ($csvData as $record) {
-                $name = $record[0]; // Assuming name is the first column in the CSV
-                $email = $record[1]; // Assuming email is the second column in the CSV
+                $name = $record[0];
+                $email = $record[1];
 
-                // Generate a random 8-digit password
-                $password = str_pad(rand(0, 99999999), 8, '0', STR_PAD_LEFT);
+                $existingUser = User::where('email', $email)->first();
 
-                // Create a new user in the 'users' table
-                $user = User::create([
-                    'name' => $name,
-                    'email' => $email,
-                    'password' => Hash::make($password),
-                    'role' => 'User',
-                    'password_status' => 'Temporary',
-                ]);
+                if (!$existingUser) {
+                    $password = str_pad(rand(0, 99999999), 8, '0', STR_PAD_LEFT);
 
-                // Create or update the email in the 'allowed_users' table
-                AllowedUsers::updateOrCreate(
-                    ['email' => $email],
-                );
+                    $user = User::create([
+                        'name' => $name,
+                        'email' => $email,
+                        'password' => Hash::make($password),
+                        'role' => 'User',
+                        'password_status' => 'Temporary',
+                    ]);
+                    $createdUserEmails[] = $email;
+                }
+            }
 
-                // Send email to the newly created user with the random password
-                Mail::to($email)->send(new NewUserWelcome($password));
+            if (!empty($createdUserEmails)) {
+                foreach ($createdUserEmails as $email) {
+                    AllowedUsers::updateOrCreate(['email' => $email]);
+                }
+
+                foreach ($createdUserEmails as $email) {
+                    Mail::to($email)->send(new NewUserWelcome($password));
+                }
+
+                return redirect()->back()->with('success', 'Users created and emails sent successfully!');
+            } else {
+                return redirect()->back()->with('info', 'No new users created.');
             }
 
             // Delete the uploaded CSV file after processing
