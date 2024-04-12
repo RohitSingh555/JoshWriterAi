@@ -110,6 +110,30 @@
     .popup.show {
         display: block;
     }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        /* Adjust the opacity as needed */
+        z-index: 1000;
+        /* Ensure the overlay is on top of everything */
+        display: none;
+        /* Initially hidden */
+    }
+
+    /* Style for the loader */
+    .loader {
+        position: fixed !important;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1001;
+        display: none;
+    }
 </style>
 
 
@@ -269,6 +293,42 @@
 
                             @endif
 
+                            @if ($name == 'ugc-video')
+
+                            <a href="{{ route('CreatePost', 'ugc-video') }}" style="text-decoration: none; color:#23D4C4;">
+
+                                <h5 class="card-title"><i class="fas fa-solid fa-video"></i> <span class="highlight-text">UGC Video </span></h5>
+
+                            </a>
+
+                            @else
+
+                            <a href="{{ route('CreatePost', 'ugc-video') }}" style="text-decoration: none; color:black;">
+
+                                <h5 class="card-title"><i class="fas fa-solid fa-video"></i> <span class="highlight-text">UGC Video Creation</span></h5>
+
+                            </a>
+
+                            @endif
+
+                            @if ($name == 'competitor-ad-ideas-and-concepts')
+
+                            <a href="{{ route('CreatePost', 'competitor-ad-ideas-and-concepts') }}" style="text-decoration: none; color:#23D4C4;">
+
+                                <h5 class="card-title"><i class="fas fa-solid fa-lightbulb"></i> <span class="highlight-text">&nbsp;Ad Ideas & Concepts Creation</span></h5>
+
+                            </a>
+
+                            @else
+
+                            <a href="{{ route('CreatePost', 'competitor-ad-ideas-and-concepts') }}" style="text-decoration: none; color:black;">
+
+                                <h5 class="card-title"><i class="fas fa-solid fa-lightbulb"></i><span class="highlight-text">&nbsp;Ad Ideas & Concepts Creation</span></h5>
+
+                            </a>
+
+                            @endif
+
                             @if ($name == 'email-copy-creation')
 
                             <a href="{{ route('CreatePost', 'email-copy-creation') }}" style="text-decoration: none; color:#23D4C4;">
@@ -352,9 +412,24 @@
                             <h5 class="card-title" style="text-align: center">Email Copy Creation</h5>
 
                             @endif
+                            @if ($name == 'ugc-video')
+
+                            <h5 class="card-title" style="text-align: center">UGC Video Creation</h5>
+
+                            @endif
+                            @if ($name == 'competitor-ad-ideas-and-concepts')
+
+                            <h5 class="card-title" style="text-align: center">Competitor Ad Ideas & Concepts Creation</h5>
+
+                            @endif
+
+                            <!-- Form -->
 
 
 
+
+
+                            @if ($name == 'social-media-ad-copy-creation' or $name == 'email-copy-creation' or $name == 'ugc-video' or $name == 'competitor-ad-ideas-and-concepts')
                             <div class="container">
 
                                 <hr>
@@ -367,9 +442,9 @@
 
                                         <div class="col-lg-12">
 
-                                            <label style="font-weight: 600">Business/Brand Name*</label>
+                                            <label style="font-weight: 600">Business Name</label>
 
-                                            <input type="text" class="form-control" placeholder="Type Here Your Business Name/Brand Name Here" style="margin-top: 20px;" name="brand" required>
+                                            <input required type="text" maxlength="50" class="form-control brand-input" placeholder="Type Here Your Business Name/Brand Name Here" style="margin-top: 20px;" name="brand" required>
 
                                             <div class="row">
 
@@ -381,27 +456,20 @@
 
                                                 <div class="col-6">
 
-                                                    <p style="text-align: end; font-weight: 500; color: red;"><span id="brandCharCount">50</span> / 50</p>
+                                                    <p style="text-align: end; font-weight: 500; color: black;"><span class="brand-char-count">0</span> / 50</p>
 
                                                 </div>
 
                                             </div>
 
 
-
-
-
-
-
                                         </div>
 
                                         <div class="col-lg-12" style="margin-top: 20px;">
 
-                                            <label style="font-weight: 600">Write Short Description Of
+                                            <label style="font-weight: 600">Please tell us about your business (What do you do?)</label>
 
-                                                Product/Service*</label>
-
-                                            <textarea id="desc_brand" name="desc_brand" cols="30" rows="7" class="form-control" placeholder="Type Here A Short Description About Your Brand" required></textarea>
+                                            <textarea maxlength="350" id="desc_brand" name="desc_brand" cols="30" rows="7" class="form-control brand-input" placeholder="Type Here A Short Description About Your Brand" required></textarea>
 
                                             <div class="row">
 
@@ -413,7 +481,7 @@
 
                                                 <div class="col-6">
 
-                                                    <p style="text-align: end; font-weight: 500; color: red;"><span id="descBrandCharCount">350</span> / 350
+                                                    <p style="text-align: end; font-weight: 500; color: black;"><span class="brand-char-count">0</span> / 350
 
                                                     </p>
 
@@ -426,14 +494,13 @@
 
 
                                         </div>
-
+                                        @if ($name != 'competitor-ad-ideas-and-concepts')
                                         <div class="col-lg-12" style="margin-top: 20px;">
 
-                                            <label style="font-weight: 600">Provide bullet points of what makes your
+                                            <label style="font-weight: 600"> What are the main value propositions of your business?
+                                            </label>
 
-                                                product/service better than others*</label>
-
-                                            <textarea type="text" name="better_brand" id="" cols="30" rows="6" class="form-control" placeholder="1. Type Here Bullet Points" required></textarea>
+                                            <textarea maxlength="100" type="text" name="better_brand" id="" cols="30" rows="6" class="form-control brand-input" placeholder="1. Type Here Bullet Points" required></textarea>
 
                                             <div class="row">
 
@@ -445,7 +512,7 @@
 
                                                 <div class="col-6">
 
-                                                    <p style="text-align: end; font-weight: 500; color: red;"><span id="betterBrandCharCount">100</span> /
+                                                    <p style="text-align: end; font-weight: 500; color: black;"><span class="brand-char-count">0</span> /
 
                                                         100</p>
 
@@ -460,7 +527,36 @@
 
 
                                         </div>
+                                        @endif
+                                        @if ($name != 'competitor-ad-ideas-and-concepts')
+                                        <div class="col-lg-12" style="margin-top: 20px;">
 
+                                            <label style="font-weight: 600"> Is there a promotion you are running? What are the details? Is it a limited quantity, or when does the offer expire? (If none write NA)
+                                            </label>
+
+                                            <textarea maxlength="100" type="text" name="promotion_details" id="" cols="30" rows="6" class="form-control brand-input" placeholder="Limited? or None?" required></textarea>
+
+                                            <div class="row">
+
+                                                <div class="col-6">
+
+                                                    <p></p>
+
+                                                </div>
+
+                                                <div class="col-6">
+
+                                                    <p style="text-align: end; font-weight: 500; color: black;"><span class="brand-char-count">0</span> /
+
+                                                        100</p>
+
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+                                        @endif
                                         @if ($name == 'email-copy-creation')
 
                                         <input type="text" hidden name="type" value="email-copy-creation">
@@ -470,6 +566,16 @@
                                         @if ($name == 'social-media-ad-copy-creation')
 
                                         <input type="text" hidden name="type" value="social-media-ad-copy-creation">
+
+                                        @endif
+                                        @if ($name == 'competitor-ad-ideas-and-concepts')
+
+                                        <input type="text" hidden name="type" value="competitor-ad-ideas-and-concepts">
+
+                                        @endif
+                                        @if ($name == 'ugc-video')
+
+                                        <input type="text" hidden name="type" value="ugc-video">
 
                                         @endif
 
@@ -549,24 +655,20 @@
 
                                     <div class="row">
 
-                                        <div class="col-12" style="    text-align: center;">
-
-                                            <button type="submit" class="btn btn-success" style="background: #151B3B;
-
-                                                padding: 10px 30px 14px 30px;">Generate</button>
-
-                                            <p style="color: rgba(105, 105, 105, 1); margin-top: 10px">Please note it
-
-                                                could take few moments to generate results.</p>
-
+                                        <div class="col-12" style="text-align: center;">
+                                            <button id="generateButton" type="submit" class="btn btn-success" style="background: #151B3B; padding: 10px 30px 14px 30px;">
+                                                Generate
+                                            </button>
+                                            <p style="color: rgba(105, 105, 105, 1); margin-top: 10px">Please note it could take few moments to generate results.</p>
                                         </div>
+
 
                                     </div>
 
                                 </form>
 
                             </div>
-
+                            @endif
                         </div>
 
                     </div>
@@ -579,6 +681,12 @@
 
     </section>
 
+    <div class="overlay" id="overlay"></div>
+
+
+    <div class="loader" id="loader">
+        <img src="{{ asset('frontend/images/loader.gif') }}" alt="Loading..." style="width: 100px; height: 100px;">
+    </div>
 
 
     <script>
@@ -791,7 +899,36 @@
             });
         });
     </script>
+    <script>
+        const brandInputs = document.querySelectorAll('.brand-input');
 
+        brandInputs.forEach(function(input) {
+            const charCountSpan = input.parentElement.querySelector('.brand-char-count');
+
+            input.addEventListener('input', function() {
+                const currentLength = this.value.length;
+                charCountSpan.textContent = currentLength;
+            });
+        });
+
+        document.getElementById('generateButton').addEventListener('click', function() {
+            var button = document.getElementById('generateButton');
+            var overlay = document.getElementById('overlay');
+            var loader = document.getElementById('loader');
+
+
+            overlay.style.display = 'block';
+            loader.style.display = 'block';
+
+            setTimeout(function() {
+                button.disabled = false;
+
+                overlay.style.display = 'none';
+                loader.style.display = 'none';
+                console.log('Button clicked and operation completed.');
+            }, 50000);
+        });
+    </script>
 
 </body>
 

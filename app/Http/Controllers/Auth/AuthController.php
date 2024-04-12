@@ -30,11 +30,11 @@ class AuthController extends Controller
                 $totalToken = ChatGpt::where('id', 1)->first();
                 $user_tokens = User::find(Auth::user()->id);
                 $user_last_tokens =  $user_tokens->lastTokens;
-                if ($user_tokens->lastDate != Carbon::now()->format('Y-m-d')) {
-                    $user_tokens->lastTokens = $totalToken->default_tokens;
-                    $user_tokens->lastDate = Carbon::now()->format('Y-m-d');
-                    $user_tokens->save();
-                }
+                // if ($user_tokens->lastDate != Carbon::now()->format('Y-m-d')) {
+                //     $user_tokens->lastTokens = $totalToken->default_tokens;
+                //     $user_tokens->lastDate = Carbon::now()->format('Y-m-d');
+                //     $user_tokens->save();
+                // }
                 $name = "social-media-ad-copy-creation";
                 return view('frontend.index', compact('name', 'user_last_tokens'));
             } else {
@@ -535,7 +535,8 @@ class AuthController extends Controller
     public function CreatePost($name)
 
     {
-
-        return view('frontend.index', compact('name'));
+        $user_tokens = User::find(Auth::user()->id);
+        $user_last_tokens =  $user_tokens->lastTokens;
+        return view('frontend.index', compact('name', 'user_last_tokens'));
     }
 }

@@ -64,7 +64,7 @@ Admin | All Histories
 
                                         <th class="text-center">Id</th>
 
-                                        <th class="text-center">Type</th>
+                                        <!-- <th class="text-center">Type</th> -->
 
                                         <th class="text-center">Brand Name</th>
 
@@ -72,7 +72,7 @@ Admin | All Histories
 
                                         <th class="text-center">Bullet Points</th>
 
-                                        <th class="text-center">Promotion Type</th>
+                                        <!-- <th class="text-center">Promotion Type</th> -->
 
                                         <th class="text-center">Date</th>
 
@@ -100,9 +100,11 @@ Admin | All Histories
 
                                         <td class="text-center">{{ $i++ }}</td>
 
-                                        <td class="text-center">{{ $history->prompt['type'] }}
+                                        <!-- <td class="text-center">@if (isset($history->prompt['type']))
+                                            {{ $history->prompt['type'] }}
+                                            @endif
 
-                                        </td>
+                                        </td> -->
 
                                         <td class="text-center">{{ $history->prompt['brand'] }}
 
@@ -110,23 +112,26 @@ Admin | All Histories
 
                                         <td class="text-center">
 
+                                            @if (isset($history->prompt['desc_brand']))
                                             {{ $history->prompt['desc_brand'] }}
+                                            @endif
                                         </td>
 
                                         <td class="text-center">
 
+                                            @if (isset($history->prompt['better_brand']))
                                             {{ $history->prompt['better_brand'] }}
+                                            @endif
                                         </td>
 
-                                        <td class="text-center">
+                                        <!-- <td class="text-center">
 
                                             {{ isset($history->prompt['date_type']) ? $history->prompt['date_type'] : 'null' }}
 
-                                        </td>
+                                        </td> -->
 
                                         <td class="text-center">
-
-                                            {{ isset($history->prompt['end_date']) ? $history->prompt['end_date'] : 'null' }}
+                                            {{ \Carbon\Carbon::parse($history->created_at)->diffForHumans() }}
 
                                         </td>
 
