@@ -100,81 +100,114 @@
 
 <body style="background:#151B3B">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background: #151B3B !important">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background: #151B3B !important">
 
-        <div class="container-fluid">
+<div class="container-fluid">
 
-            <a class="navbar-brand" href="#"><img src="{{ asset('frontend/images/logo.png') }}"
 
-                    alt=""></a>
+    <a class="navbar-brand" href="#"><img src="{{ asset('frontend/images/logo.png') }}" alt=""></a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" style="background: white">
 
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"
+        <span class="navbar-toggler-icon"></span>
 
-                style="background: white">
+    </button>
 
-                <span class="navbar-toggler-icon"></span>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown" style="justify-content: end;">
 
-            </button>
+        <ul class="navbar-nav">
 
-            <div class="collapse navbar-collapse" id="navbarNavDropdown" style="justify-content: end;">
+            <!--<li class="nav-item">-->
 
-                <ul class="navbar-nav">
+            <!--    <a class="nav-link active" aria-current="page" href="{{ route('Home') }}"-->
 
-                    <!--<li class="nav-item">-->
+            <!--        style="color: white;     padding: 5px 50px 0px 0px;">HOME</a>-->
 
-                    <!--    <a class="nav-link active" aria-current="page" href="{{ route('Home') }}"-->
+            <!--</li>-->
 
-                    <!--        style="color: white;     padding: 5px 50px 0px 0px;">HOME</a>-->
+            <!--<li class="nav-item">-->
 
-                    <!--</li>-->
+            <!--    <a class="nav-link active" aria-current="page" href="#"-->
 
-                    <!--<li class="nav-item">-->
+            <!--        style="color: white;    padding: 5px 50px 0px 0px;">FEATURES</a>-->
 
-                    <!--    <a class="nav-link active" aria-current="page" href="#"-->
+            <!--</li>-->
 
-                    <!--        style="color: white;    padding: 5px 50px 0px 0px;">FEATURES</a>-->
+            <!--<li class="nav-item">-->
 
-                    <!--</li>-->
+            <!--    <a class="nav-link active" aria-current="page" href="#"-->
 
-                    <!--<li class="nav-item">-->
+            <!--        style="color: white;     padding: 5px 50px 0px 0px;">Pricing</a>-->
 
-                    <!--    <a class="nav-link active" aria-current="page" href="#"-->
+            </li>
+            <li class="nav-item user-tokens fw-bold align-items-baseline d-flex px-4" style=" box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <span class="text-white me-2">
+                    <span class="text-white"></span>
+                    <i class="fas fa-coins text-white" style="font-size: 27px;" title="Tokens"></i>
+                </span>
+                <span class="tokens text-white font-weight-bold">{{ $user_last_tokens }} &nbsp;</span>
+                <a class="btn btn-sm" href="{{ route('purchase') }}" style=" border: 2px solid white;color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); font-weight:600;">
+                    <i class="fas fa-plus"></i> &nbsp;Add Tokens
+                </a>
+            </li>
 
-                    <!--        style="color: white;     padding: 5px 50px 0px 0px;">Pricing</a>-->
 
-                    <!--</li>-->
 
-                    <li class="nav-item">
 
-                        <a class="nav-link active" aria-current="page"
-
-                            style="color: white;     padding: 5px 50px 0px 0px;">
-
-                            <img src="{{ asset('frontend/images/user.png') }}" alt="">
-
-                        </a>
-
-                    </li>
-
-                    <li class="nav-item">
-
-                        <a class="nav-link active" aria-current="page" href="{{ route('logout') }}"
-
-                            style="color: white; padding: 5px 50px 0px 0px;"><i class="nav-icon fas fa-power-off"
-
-                                style="font-size: 27px;" title="Logout"></i></a>
-
-                    </li>
-
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: white; padding: 5px 50px 0px 0px;">
+                    <img style="width: 24px;" src="{{ asset('frontend/images/user.png') }}" alt="">
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Change Password</a></li>
                 </ul>
+            </li>
 
+            <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content" style="background-color: #22d4c4;">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-white" id="exampleModalLabel">Change Password</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="changePasswordForm">
+                                <div class="mb-3">
+                                    <label for="oldPassword" class="form-label text-white">Current Password</label>
+                                    <input type="password" class="form-control" id="oldPassword" style="background-color: #fff;">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="newPassword" class="form-label text-white">New Password</label>
+                                    <input type="password" class="form-control" id="newPassword" style="background-color: #fff;">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="repeatNewPassword" class="form-label text-white">Repeat New Password</label>
+                                    <input type="password" class="form-control" id="repeatNewPassword" style="background-color: #fff;">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="closeModalBtn">Close</button>
+                            <button type="button" class="btn btn-dark" id="saveChangesBtn">Save changes</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-        </div>
 
-    </nav>
+            <li class="nav-item">
+
+                <a class="nav-link active" aria-current="page" href="{{ route('logout') }}" style="color: white; padding: 5px 50px 0px 0px;"><i class="nav-icon fas fa-power-off" style="font-size: 27px;" title="Logout"></i></a>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+</nav>
 
     <p style="color: white; text-align: center;">Hi {{ Auth::user()->name }}, Welcome to our Josh Writer AI</p>
 
@@ -188,125 +221,131 @@
 
                     <div class="card">
 
-                        <div class="card-body">
+                    <div class="card-body">
 
-                            <h5 class="card-title"><img src="{{ asset('frontend/images/prompt.png') }}" alt=""
+<h5 class="card-title"><img src="{{ asset('frontend/images/prompt.png') }}" alt="" style="margin-top: -2px;"> <span>PROMPTS</span></h5>
 
-                                    style="margin-top: -2px;"> <span>PROMPTS</span></h5>
+<hr>
 
-                            <hr>
+@if ($name == 'social-media-ad-copy-creation')
 
-                            @if ($name == 'social-media-ad-copy-creation')
+<a href="{{ route('CreatePost', 'social-media-ad-copy-creation') }}" style="text-decoration: none; color:#23D4C4;">
 
-                                <a href="{{ route('CreatePost', 'social-media-ad-copy-creation') }}"
+    <h5 class="card-title"><img src="{{ asset('frontend/images/social.png') }}" alt="" style="margin-top: -2px;"> <span class="highlight-text">Social
 
-                                    style="text-decoration: none; color:#23D4C4;">
+            Media Ad Copy
 
-                                    <h5 class="card-title"><img src="{{ asset('frontend/images/social.png') }}"
+            Creation</span></h5>
 
-                                            alt="" style="margin-top: -2px;"> <span
+</a>
 
-                                            class="highlight-text">Social
+@else
 
-                                            Media Ad Copy
+<a href="{{ route('CreatePost', 'social-media-ad-copy-creation') }}" style="text-decoration: none; color:black;">
 
-                                            Creation</span></h5>
+    <h5 class="card-title"><img src="{{ asset('frontend/images/social.png') }}" alt="" style="margin-top: -2px;"> <span class="highlight-text">Social
 
-                                </a>
+            Media Ad Copy
 
-                            @else
+            Creation</span></h5>
 
-                                <a href="{{ route('CreatePost', 'social-media-ad-copy-creation') }}"
+</a>
 
-                                    style="text-decoration: none; color:black;">
+@endif
 
-                                    <h5 class="card-title"><img src="{{ asset('frontend/images/social.png') }}"
+@if ($name == 'ugc-video')
 
-                                            alt="" style="margin-top: -2px;"> <span
+<a href="{{ route('CreatePost', 'ugc-video') }}" style="text-decoration: none; color:#23D4C4;">
 
-                                            class="highlight-text">Social
+    <h5 class="card-title"><i class="fas fa-solid fa-video"></i> <span class="highlight-text">UGC Video </span></h5>
 
-                                            Media Ad Copy
+</a>
 
-                                            Creation</span></h5>
+@else
 
-                                </a>
+<a href="{{ route('CreatePost', 'ugc-video') }}" style="text-decoration: none; color:black;">
 
-                            @endif
+    <h5 class="card-title"><i class="fas fa-solid fa-video"></i> <span class="highlight-text">UGC Video Creation</span></h5>
 
-                            @if ($name == 'email-copy-creation')
+</a>
 
-                                <a href="{{ route('CreatePost', 'email-copy-creation') }}"
+@endif
 
-                                    style="text-decoration: none; color:#23D4C4;">
+@if ($name == 'competitor-ad-ideas-and-concepts')
 
-                                    <h5 class="card-title"><img src="{{ asset('frontend/images/mail.png') }}"
+<a href="{{ route('CreatePost', 'competitor-ad-ideas-and-concepts') }}" style="text-decoration: none; color:#23D4C4;">
 
-                                            alt="" style="margin-top: -2px;"> <span
+    <h5 class="card-title"><i class="fas fa-solid fa-lightbulb"></i> <span class="highlight-text">&nbsp;Ad Ideas & Concepts Creation</span></h5>
 
-                                            class="highlight-text">Email
+</a>
 
-                                            Copy
+@else
 
-                                            Creation</span>
+<a href="{{ route('CreatePost', 'competitor-ad-ideas-and-concepts') }}" style="text-decoration: none; color:black;">
 
-                                    </h5>
+    <h5 class="card-title"><i class="fas fa-solid fa-lightbulb"></i><span class="highlight-text">&nbsp;Ad Ideas & Concepts Creation</span></h5>
 
-                                </a>
+</a>
 
-                            @else
+@endif
 
-                                <a href="{{ route('CreatePost', 'email-copy-creation') }}"
+@if ($name == 'email-copy-creation')
 
-                                    style="text-decoration: none; color:black;">
+<a href="{{ route('CreatePost', 'email-copy-creation') }}" style="text-decoration: none; color:#23D4C4;">
 
-                                    <h5 class="card-title"><img src="{{ asset('frontend/images/mail.png') }}"
+    <h5 class="card-title"><img src="{{ asset('frontend/images/mail.png') }}" alt="" style="margin-top: -2px;"> <span class="highlight-text">Email
 
-                                            alt="" style="margin-top: -2px;"> <span
+            Copy
 
-                                            class="highlight-text">Email
+            Creation</span>
 
-                                            Copy
+    </h5>
 
-                                            Creation</span>
+</a>
 
-                                    </h5>
+@else
 
-                                </a>
+<a href="{{ route('CreatePost', 'email-copy-creation') }}" style="text-decoration: none; color:black;">
 
-                            @endif
+    <h5 class="card-title"><img src="{{ asset('frontend/images/mail.png') }}" alt="" style="margin-top: -2px;"> <span class="highlight-text">Email
 
-                            @if ($name == 'history')
+            Copy
 
-                                <a href="{{ route('history') }}" style="text-decoration: none; color:#23D4C4;">
+            Creation</span>
 
-                                    <h5 class="card-title"><i class="fas fa-history"></i> <span
+    </h5>
 
-                                            class="highlight-text">
+</a>
 
-                                            History</span>
+@endif
 
-                                    </h5>
+@if ($name == 'history')
 
-                                </a>
+<a href="{{ route('history') }}" style="text-decoration: none; color:#23D4C4;">
 
-                            @else
+    <h5 class="card-title"><i class="fas fa-history"></i> <span class="highlight-text">
 
-                                <a href="{{ route('history') }}" style="text-decoration: none; color:black;">
+            History</span>
 
-                                    <h5 class="card-title"><i class="fas fa-history"></i> <span
+    </h5>
 
-                                            class="highlight-text">
+</a>
 
-                                            History</span>
+@else
 
-                                    </h5>
+<a href="{{ route('history') }}" style="text-decoration: none; color:black;">
 
-                                </a>
+    <h5 class="card-title"><i class="fas fa-history"></i> <span class="highlight-text">
 
-                            @endif
+            History</span>
 
-                        </div>
+    </h5>
+
+</a>
+
+@endif
+
+</div>
 
                     </div>
 
@@ -340,15 +379,11 @@
 
                                                         <th class="text-center">Id</th>
 
-                                                        <th class="text-center">Type</th>
-
                                                         <th class="text-center">Brand Name</th>
 
                                                         <th class="text-center">Description</th>
 
                                                         <th class="text-center">Bullet Points</th>
-
-                                                        <th class="text-center">Promotion Type</th>
 
                                                         <th class="text-center">Date</th>
 
@@ -376,10 +411,6 @@
 
                                                             <td class="text-center">{{ $i++ }}</td>
 
-                                                            <td class="text-center">{{ $history->prompt['type'] }}
-
-                                                            </td>
-
                                                             <td class="text-center">{{ $history->prompt['brand'] }}
 
                                                             </td>
@@ -390,17 +421,13 @@
 
                                                             <td class="text-center">
 
-                                                                {{ $history->prompt['better_brand'] }}</td>
+                                                            @if (isset($history->prompt['better_brand']))
+                                            {{ $history->prompt['better_brand'] }}
+                                            @endif</td>
 
                                                             <td class="text-center">
 
-                                                                {{ isset($history->prompt['date_type']) ? $history->prompt['date_type'] : 'null' }}
-
-                                                            </td>
-
-                                                            <td class="text-center">
-
-                                                                {{ isset($history->prompt['end_date']) ? $history->prompt['end_date'] : 'null' }}
+                                                            {{ \Carbon\Carbon::parse($history->created_at)->diffForHumans() }}
 
                                                             </td>
 

@@ -47,7 +47,7 @@ Route::middleware('VerifyAccount')->group(function () {
         Route::get('/payment_confirmed', [StripeController::class, 'payment_confirmed'])->name('payment_confirmed');
         Route::get('/history', [AuthController::class, 'history'])->name('history');
         Route::get('/history/{id}', [AuthController::class, 'historyByID'])->name('historyByID');
-        Route::get('/variation', [AuthController::class, 'variation']);
+        Route::get('/variation', [AuthController::class, 'variation'])->name('variation');
         Route::get('/create-post/{name}', [AuthController::class, 'CreatePost'])->name('CreatePost');
         Route::get('/get-post', [ChatGptController::class, 'GetPost'])->name('GetPost');
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

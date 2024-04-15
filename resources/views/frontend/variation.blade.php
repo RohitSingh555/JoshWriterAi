@@ -454,11 +454,7 @@
 
                 const copyMessage = button
 
-                    .nextElementSibling; // The adjacent div for displaying the message
-
-
-
-                // Create a temporary textarea to preserve formatting
+                    .nextElementSibling;
 
                 const tempTextarea = document.createElement('textarea');
 
@@ -474,19 +470,18 @@
 
 
 
-                button.style.display = 'none'; // Hide the button
+                button.style.display = 'none'; 
 
-                copyMessage.style.display = 'inline-block'; // Show the message
+                copyMessage.style.display = 'inline-block'; 
 
 
 
                 setTimeout(() => {
 
-                    button.style.display = 'inline-block'; // Show the button after 2 seconds
+                    button.style.display = 'inline-block'; 
+                    copyMessage.style.display = 'none'; 
 
-                    copyMessage.style.display = 'none'; // Hide the message after 2 seconds
-
-                }, 2000); // 2000 milliseconds (2 seconds)
+                }, 2000); 
 
             });
 
@@ -498,15 +493,12 @@
     <script>
         $(document).ready(function() {
 
-            // Add click event listener to each card title
 
             $(".card-title").click(function() {
 
-                // Remove the "highlighted" class from all card titles
 
                 $(".highlight-text").removeClass("highlighted");
 
-                // Add the "highlighted" class to the text within the clicked card title
 
                 $(this).find(".highlight-text").addClass("highlighted");
 
