@@ -147,7 +147,7 @@
                                                     <label for="amount"><i class="fas fa-coins text-white" style="font-size: 100px;" title="Tokens"></i></label>
                                                     <div class="input-group px-5">
                                                         <button class="decrement-btn" type="button" onclick="decrementToken()">-</button>
-                                                        <select class="form-control text-center fw-bold" style="font-size:25px" id="amount" name="amount" required>
+                                                        <select class="form-control text-center fw-bold" style="font-size:25px" onchange="handleSelect()" id="amount" name="amount" required>
                                                             <option value="0" disabled selected>0</option>
                                                             <option value="1">1000</option>
                                                             <option value="2">2000</option>
@@ -208,6 +208,16 @@
             if (selectedIndex > 0) {
                 select.selectedIndex = selectedIndex - 1;
                 handleChange(select);
+            }
+        }
+
+        function handleSelect() {
+            const amount = document.getElementById("amount");
+            const selectedIndex = amount.selectedIndex;
+
+            if (selectedIndex > 0) {
+                amount.selectedIndex = selectedIndex * 1;
+                handleChange(amount);
             }
         }
 

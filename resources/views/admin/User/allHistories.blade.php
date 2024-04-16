@@ -103,7 +103,7 @@ Admin | All Histories
 
                                     @foreach ($histories as $history)
 
-                                    <tr data-email="{{ $history->user->email }}">
+                                    <tr data-email=" @if (isset($history->prompt['email'])){{ $history->user->email }}@endif">
 
                                         <td class=" text-center">{{ $i++ }}</td>
 
@@ -146,7 +146,7 @@ Admin | All Histories
 
                                         </td>
                                         <td class="text-center">
-                                            <p>{{ $history->user->email }}</p>
+                                            <p>@if (isset($history->prompt['email'])){{ $history->user->email }}@endif</p>
                                         </td>
 
 

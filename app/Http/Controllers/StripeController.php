@@ -67,6 +67,6 @@ class StripeController extends Controller
         Session::forget('amount');
         Session::forget('tokens');
         Session::put('payment', 'Success');
-        return redirect(route('Home'));
+        return redirect()->route('Home')->with('success', 'Payment Successful, Tokens Added!');
     }
 }
