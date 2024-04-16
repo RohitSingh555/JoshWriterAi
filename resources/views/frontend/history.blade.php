@@ -257,7 +257,7 @@
 
 <a href="{{ route('CreatePost', 'ugc-video') }}" style="text-decoration: none; color:#23D4C4;">
 
-    <h5 class="card-title"><i class="fas fa-solid fa-video"></i> <span class="highlight-text">UGC Video </span></h5>
+    <h5 class="card-title"><i class="fas fa-solid fa-video"></i> <span class="highlight-text">UGC Video Creation</span></h5>
 
 </a>
 

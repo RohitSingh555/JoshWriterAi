@@ -251,7 +251,7 @@
 
                             <a href="{{ route('CreatePost', 'ugc-video') }}" style="text-decoration: none; color:#23D4C4;">
 
-                                <h5 class="card-title"><i class="fas fa-solid fa-video"></i> <span class="highlight-text">UGC Video </span></h5>
+                                <h5 class="card-title"><i class="fas fa-solid fa-video"></i> <span class="highlight-text">UGC Video Creation</span></h5>
 
                             </a>
 
@@ -454,7 +454,11 @@
 
                 const copyMessage = button
 
-                    .nextElementSibling;
+                    .nextElementSibling; // The adjacent div for displaying the message
+
+
+
+                // Create a temporary textarea to preserve formatting
 
                 const tempTextarea = document.createElement('textarea');
 
@@ -470,18 +474,19 @@
 
 
 
-                button.style.display = 'none'; 
+                button.style.display = 'none'; // Hide the button
 
-                copyMessage.style.display = 'inline-block'; 
+                copyMessage.style.display = 'inline-block'; // Show the message
 
 
 
                 setTimeout(() => {
 
-                    button.style.display = 'inline-block'; 
-                    copyMessage.style.display = 'none'; 
+                    button.style.display = 'inline-block'; // Show the button after 2 seconds
 
-                }, 2000); 
+                    copyMessage.style.display = 'none'; // Hide the message after 2 seconds
+
+                }, 2000); // 2000 milliseconds (2 seconds)
 
             });
 
@@ -495,7 +500,6 @@
 
 
             $(".card-title").click(function() {
-
 
                 $(".highlight-text").removeClass("highlighted");
 

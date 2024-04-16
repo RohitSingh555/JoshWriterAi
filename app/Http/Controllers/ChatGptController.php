@@ -15,16 +15,9 @@ class ChatGptController extends Controller
 {
     public function GetPost(Request $request)
     {
+        if ($request->isMethod('post')) {
         try {
-            // if ($request->variations == "3") {
-            //     $variationsCount = 3;
-            // } elseif ($request->variations == "2") {
-            //     $variationsCount = 2;
-            // } elseif ($request->variations == "1") {
-            //     $variationsCount = 1;
-            // } else {
-            //     $variationsCount = 1;
-            // }
+         
             $variationsCount = 1;
             $promptToken = ChatGpt::where('id', 1)->first();
             $totalPromptToken = $promptToken->prompt_tokens * $variationsCount;
@@ -139,6 +132,9 @@ class ChatGptController extends Controller
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
+    } else {
+        return redirect()->route('GetPost')->with('error', 'Please submit the form.');
+    }
     }
     // public function getSocialMediaPrompt($data)
     // {

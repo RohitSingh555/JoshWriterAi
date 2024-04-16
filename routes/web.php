@@ -49,7 +49,7 @@ Route::middleware('VerifyAccount')->group(function () {
         Route::get('/history/{id}', [AuthController::class, 'historyByID'])->name('historyByID');
         Route::get('/variation', [AuthController::class, 'variation'])->name('variation');
         Route::get('/create-post/{name}', [AuthController::class, 'CreatePost'])->name('CreatePost');
-        Route::get('/get-post', [ChatGptController::class, 'GetPost'])->name('GetPost');
+        Route::post('/get-post', [ChatGptController::class, 'GetPost'])->name('GetPost');
         Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     });
 });

@@ -50,7 +50,9 @@ class AuthController extends Controller
             if (Auth::check() == true) {
                 $name = "history";
                 $history = History::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get();
-                return view('frontend.history', compact('name', 'history'));
+                $user_tokens = User::find(Auth::user()->id);
+                $user_last_tokens =  $user_tokens->lastTokens;
+                return view('frontend.history', compact('name', 'history','user_last_tokens'));
             } else {
                 return redirect()->route('login');
             }
@@ -71,7 +73,9 @@ class AuthController extends Controller
                 $name = "history";
                 $history = History::where('id', $id)->first();
                 $results = $history->response;
-                return view('frontend.variation', compact('results', 'name'));
+                $user_tokens = User::find(Auth::user()->id);
+                $user_last_tokens =  $user_tokens->lastTokens;
+                return view('frontend.variation', compact('results', 'name','user_last_tokens'));
             } else {
                 return redirect()->route('login');
             }
@@ -84,7 +88,9 @@ class AuthController extends Controller
         if (Auth::user()->role == "User") {
             if (Auth::check() == true) {
                 $name = "social-media-ad-copy-creation";
-                return view('frontend.variation', compact('name'));
+                $user_tokens = User::find(Auth::user()->id);
+                $user_last_tokens =  $user_tokens->lastTokens;
+                return view('frontend.variation', compact('name','user_last_tokens'));
             } else {
                 return redirect()->route('login');
             }
@@ -535,7 +541,8 @@ class AuthController extends Controller
     public function CreatePost($name)
 
     {
-
-        return view('frontend.index', compact('name'));
+        $user_tokens = User::find(Auth::user()->id);
+        $user_last_tokens =  $user_tokens->lastTokens;
+        return view('frontend.index', compact('name','user_last_tokens'));
     }
 }
