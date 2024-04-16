@@ -38,7 +38,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('payment_log') }}" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
+                        <i class="nav-icon fas fa-dollar-sign"></i>
                         <p>Payment Log</p>
                     </a>
                 </li>
@@ -49,6 +49,11 @@
                         <p>
                             Allowed Users
                         </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('prompts.prompt_index') }}"><i class="nav-icon fas fa-comment"></i>
+                        <p>Prompts</p>
                     </a>
                 </li>
                 <li class="nav-item">

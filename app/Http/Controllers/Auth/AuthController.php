@@ -52,7 +52,7 @@ class AuthController extends Controller
                 $history = History::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get();
                 $user_tokens = User::find(Auth::user()->id);
                 $user_last_tokens =  $user_tokens->lastTokens;
-                return view('frontend.history', compact('name', 'history','user_last_tokens'));
+                return view('frontend.history', compact('name', 'history', 'user_last_tokens'));
             } else {
                 return redirect()->route('login');
             }
@@ -75,7 +75,7 @@ class AuthController extends Controller
                 $results = $history->response;
                 $user_tokens = User::find(Auth::user()->id);
                 $user_last_tokens =  $user_tokens->lastTokens;
-                return view('frontend.variation', compact('results', 'name','user_last_tokens'));
+                return view('frontend.variation', compact('results', 'name', 'user_last_tokens'));
             } else {
                 return redirect()->route('login');
             }
@@ -90,7 +90,7 @@ class AuthController extends Controller
                 $name = "social-media-ad-copy-creation";
                 $user_tokens = User::find(Auth::user()->id);
                 $user_last_tokens =  $user_tokens->lastTokens;
-                return view('frontend.variation', compact('name','user_last_tokens'));
+                return view('frontend.variation', compact('name', 'user_last_tokens'));
             } else {
                 return redirect()->route('login');
             }
@@ -514,7 +514,8 @@ class AuthController extends Controller
 
             $user = User::where('email', Auth::user()->email)->first();
 
-            $user->code = 123456;
+            // $user->code = 123456;
+            $user->code = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
 
             $user->save();
 
@@ -543,6 +544,6 @@ class AuthController extends Controller
     {
         $user_tokens = User::find(Auth::user()->id);
         $user_last_tokens =  $user_tokens->lastTokens;
-        return view('frontend.index', compact('name','user_last_tokens'));
+        return view('frontend.index', compact('name', 'user_last_tokens'));
     }
 }

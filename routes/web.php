@@ -7,6 +7,7 @@ use App\Http\Controllers\ChatGptController;
 use App\Http\Controllers\CSVController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\PromptController;
 use App\Http\Controllers\GoogleSheetsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +74,15 @@ Route::prefix('admin')->group(function () {
         Route::get('/clear-cache', [AdminController::class, 'clearcache'])->name('clearcache');
         Route::group(['middleware' => 'auth:web'], function () {
             Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+            Route::prefix('prompts')->group(function () {
+                Route::get('/', [PromptController::class, 'prompt_index'])->name('prompts.prompt_index');
+                Route::get('/create', [PromptController::class, 'prompt_create'])->name('prompts.prompt_create');
+                Route::post('/', [PromptController::class, 'prompt_store'])->name('prompts.prompt_store');
+                Route::get('/{prompt}/edit', [PromptController::class, 'prompt_edit'])->name('prompts.prompt_edit');
+                Route::put('/{prompt}', [PromptController::class, 'prompt_update'])->name('prompts.prompt_update');
+                Route::delete('/{prompt}', [PromptController::class, 'prompt_destroy'])->name('prompts.prompt_destroy');
+            });
 
             Route::prefix('users')->group(function () {
                 Route::get('/get', [UserController::class, 'get'])->name('users.get');

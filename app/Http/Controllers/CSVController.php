@@ -52,8 +52,15 @@ class CSVController extends Controller
                         'role' => 'User',
                         'password_status' => 'Temporary',
                     ]);
+
+                    Mail::to($email)->send(new NewUserWelcome($password));
+
                     $createdUserEmails[] = $email;
                 }
+            }
+
+            if (File::exists($csvFile)) {
+                File::delete($csvFile);
             }
 
             if (!empty($createdUserEmails)) {
@@ -61,21 +68,10 @@ class CSVController extends Controller
                     AllowedUsers::updateOrCreate(['email' => $email]);
                 }
 
-                foreach ($createdUserEmails as $email) {
-                    Mail::to($email)->send(new NewUserWelcome($password));
-                }
-
                 return redirect()->back()->with('success', 'Users created and emails sent successfully!');
             } else {
                 return redirect()->back()->with('info', 'No new users created.');
             }
-
-            // Delete the uploaded CSV file after processing
-            if (File::exists($csvFile)) {
-                File::delete($csvFile);
-            }
-
-            return redirect()->back()->with('success', 'Users created and emails sent successfully!');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
