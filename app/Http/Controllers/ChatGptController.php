@@ -160,7 +160,6 @@ class ChatGptController extends Controller
         }
     }
 
-
     public function UGCVideoScript($data)
     {
         //dd($data->lang);

@@ -58,7 +58,6 @@ class CSVController extends Controller
                     $createdUserEmails[] = $email;
                 }
             }
-
             if (File::exists($csvFile)) {
                 File::delete($csvFile);
             }

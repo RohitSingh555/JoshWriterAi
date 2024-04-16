@@ -60,7 +60,6 @@ class AuthController extends Controller
         //else {
 
         //     return redirect()->back()->with('error', 'Role is invalid!');
-
         // } 
         else {
             return redirect()->route('admin.dashboard');

@@ -104,7 +104,6 @@ class UserController extends Controller
         }
     }
 
-
     public function AutomatedUserCreator(Request $request)
     {
         try {

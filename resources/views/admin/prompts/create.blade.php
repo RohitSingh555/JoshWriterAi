@@ -27,8 +27,6 @@
                                     <label for="request">Prompt Text</label>
                                     <textarea class="form-control" id="request" name="request" rows="10" required></textarea>
                                 </div>
-                                <!-- Add more input fields as needed -->
-
                                 <div class="text-center">
                                     <button type="button" class="btn btn-secondary" onclick="window.history.back();">
                                         <i class="fas fa-arrow-left mr-1"></i> Go Back

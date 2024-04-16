@@ -52,6 +52,7 @@ class PromptController extends Controller
         return redirect()->route('prompts.prompt_index'); // Adjust the route name
     }
 
+
     public function prompt_destroy(Prompt $prompt)
     {
         $prompt->delete();

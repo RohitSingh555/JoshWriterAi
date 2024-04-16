@@ -103,7 +103,6 @@ Route::prefix('admin')->group(function () {
                 Route::post('/upload-csv', [CSVController::class, 'readCsvFile'])->name('upload.csv');
             });
 
-
             Route::prefix('allowed-users')->group(function () {
                 Route::get('/get', [AllowedUsersController::class, 'get'])->name('allowed_users.get');
                 Route::post('/store', [AllowedUsersController::class, 'store'])->name('allowed_users.store');

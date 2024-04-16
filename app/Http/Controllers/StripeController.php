@@ -15,7 +15,6 @@ use Stripe\StripeClient;
 class StripeController extends Controller
 {
     private $stripe;
-
     public function __construct()
     {
         $this->stripe = new StripeClient(env('STRIPE_SECRET'));
